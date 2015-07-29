@@ -16,13 +16,13 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.Reader;
 import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
-    TextView textView;
+    TextView textViewCurrency, textViewBaseCurrency, textViewBuyPrice, textViewSalePrice;
     private static final String DEBUG_TAG = "HttpExample";
 
     @Override
@@ -30,7 +30,10 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        textView = (TextView) findViewById(R.id.textView);
+        textViewCurrency = (TextView) findViewById(R.id.textViewCurrency);
+        textViewBaseCurrency = (TextView) findViewById(R.id.textViewBaseCurrency);
+        textViewBuyPrice = (TextView) findViewById(R.id.textViewBuyPrice);
+        textViewSalePrice = (TextView) findViewById(R.id.textViewSalePrice);
         //textView.setText(getHttpRequest());
 
     }
@@ -70,7 +73,7 @@ public class MainActivity extends AppCompatActivity {
         if (networkInfo != null && networkInfo.isConnected()) {
             new DownloadWebpageTask().execute(stringUrl);
         } else {
-            textView.setText("No network connection available.");
+            //textView.setText("No network connection available.");
         }
     }
 
@@ -79,32 +82,38 @@ public class MainActivity extends AppCompatActivity {
     // has been established, the AsyncTask downloads the contents of the webpage as
     // an InputStream. Finally, the InputStream is converted into a string, which is
     // displayed in the UI by the AsyncTask's onPostExecute method.
-    private class DownloadWebpageTask extends AsyncTask<String, Void, String> {
+    private class DownloadWebpageTask extends AsyncTask<String, Void, List> {
         @Override
-        protected String doInBackground(String... urls) {
+        protected List doInBackground(String... urls) {
 
             // params comes from the execute() call: params[0] is the url.
             try {
                 return downloadUrl(urls[0]);
             } catch (IOException e) {
-                return "Unable to retrieve web page. URL may be invalid.";
+                return null;
+                //return "Unable to retrieve web page. URL may be invalid.";
             }
         }
         // onPostExecute displays the results of the AsyncTask.
         @Override
-        protected void onPostExecute(String result) {
-            textView.setText(result);
+        protected void onPostExecute(List result) {
+            if(result != null) {
+                JsonMessage jasonMessage = (JsonMessage) result.get(0);
+
+                textViewCurrency.setText(jasonMessage.getCurrency());
+                textViewBaseCurrency.setText(jasonMessage.getBaseCurrency());
+                textViewBuyPrice.setText(jasonMessage.getBuyPrice());
+                textViewSalePrice.setText(jasonMessage.getSalePrice());
+            }
         }
     }
 
     // Given a URL, establishes an HttpUrlConnection and retrieves
-// the web page content as a InputStream, which it returns as
-// a string.
-    private String downloadUrl(String myurl) throws IOException {
+    // the web page content as a InputStream, which it returns as
+    // a string.
+    private List downloadUrl(String myurl) throws IOException {
         InputStream is = null;
-        // Only display the first 500 characters of the retrieved
-        // web page content.
-        int len = 500;
+
 
         try {
             URL url = new URL(myurl);
@@ -120,8 +129,8 @@ public class MainActivity extends AppCompatActivity {
             is = conn.getInputStream();
 
             // Convert the InputStream into a string
-            String contentAsString = readIt(is, len);
-            return contentAsString;
+            List list = readIt(is);
+            return list;
 
             // Makes sure that the InputStream is closed after the app is
             // finished using it.
@@ -133,12 +142,14 @@ public class MainActivity extends AppCompatActivity {
     }
 
     // Reads an InputStream and converts it to a String.
-    public String readIt(InputStream stream, int len) throws IOException, UnsupportedEncodingException {
-        Reader reader = null;
+    public List readIt(InputStream stream) throws IOException, UnsupportedEncodingException {
+        List list = JsonParser.readJsonStream(stream);
+        return list;
+/*        Reader reader = null;
         reader = new InputStreamReader(stream, "UTF-8");
         char[] buffer = new char[len];
         reader.read(buffer);
-        return new String(buffer);
+        return new String(buffer);*/
     }
 
     private String getHttpRequest() {

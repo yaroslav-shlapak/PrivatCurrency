@@ -6,16 +6,34 @@
     android:paddingBottom="@dimen/activity_vertical_margin" tools:context=".MainActivity">
 
     <TextView android:text="@string/hello_world" android:layout_width="wrap_content"
-        android:id="@+id/textView"
+        android:id="@+id/textViewCurrency"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true" />
+    <TextView android:text="@string/hello_world" android:layout_width="wrap_content"
+        android:id="@+id/textViewBaseCurrency"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/textViewBuyPrice"
+        android:layout_centerHorizontal="true" />
+    <TextView android:text="@string/hello_world" android:layout_width="wrap_content"
+        android:id="@+id/textViewBuyPrice"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/textViewSalePrice"
+        android:layout_alignLeft="@+id/textViewBaseCurrency"
+        android:layout_alignStart="@+id/textViewBaseCurrency" />
+    <TextView android:text="@string/hello_world" android:layout_width="wrap_content"
+        android:id="@+id/textViewSalePrice"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/button"
+        android:layout_alignLeft="@+id/textViewBuyPrice"
+        android:layout_alignStart="@+id/textViewBuyPrice" />
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Download"
         android:onClick="myClickHandler"
         android:layout_centerVertical="true"
-        android:layout_centerHorizontal="true" />
+        android:layout_centerHorizontal="true"
+        android:id="@+id/button" />
 
 </RelativeLayout>
