@@ -21,4 +21,10 @@
         </activity>
     </application>
 
+    <provider
+        android:authorities="com.voidgreen.privatcurrency.app"
+        android:name=".data.CurrencyProvider"
+        android:exported="false"
+        android:syncable="true" />
+
 </manifest>

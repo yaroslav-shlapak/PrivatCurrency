@@ -1,10 +1,15 @@
 package com.voidgreen.privatcurrency;
 
 import android.content.Context;
+import android.database.Cursor;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v4.app.LoaderManager;
+import android.support.v4.content.CursorLoader;
+import android.support.v4.content.Loader;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
@@ -12,23 +17,42 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
-import java.io.BufferedReader;
+import com.voidgreen.privatcurrency.data.CurrencyContract;
+import com.voidgreen.privatcurrency.data.CurrencyContract.CardEntry;
+
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity  implements LoaderManager.LoaderCallbacks<Cursor>  {
     TextView textViewCurrency, textViewBaseCurrency, textViewBuyPrice, textViewSalePrice;
     private static final String DEBUG_TAG = "HttpExample";
+    private Uri mUri;
+    private static final String[] DETAIL_COLUMNS = {
+            CardEntry.TABLE_NAME + "." + CardEntry._ID,
+            CardEntry.COLUMN_BASE_CURRENCY,
+            CardEntry.COLUMN_CURRENCY,
+            CardEntry.COLUMN_BUY,
+            CardEntry.COLUMN_SALE
+    };
+    // These indices are tied to DETAIL_COLUMNS.  If DETAIL_COLUMNS changes, these
+    // must change.
+    public static final int COL_WEATHER_ID = 0;
+    public static final int COL_BASE_CURRENCY = 1;
+    public static final int COL_CURRENCY = 2;
+    public static final int COL_BUY = 3;
+    public static final int COL_SALE = 4;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        mUri = CurrencyContract.CardEntry.buildCardUri(0);
+
 
         textViewCurrency = (TextView) findViewById(R.id.textViewCurrency);
         textViewBaseCurrency = (TextView) findViewById(R.id.textViewBaseCurrency);
@@ -77,6 +101,43 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    @Override
+    public Loader<Cursor> onCreateLoader(int id, Bundle args) {
+        if ( null != mUri ) {
+            // Now create and return a CursorLoader that will take care of
+            // creating a Cursor for the data being displayed.
+            return new CursorLoader(
+                    this,
+                    mUri,
+                    DETAIL_COLUMNS,
+                    null,
+                    null,
+                    null
+            );
+        }
+        return null;
+    }
+
+    @Override
+    public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
+        if (data != null && data.moveToFirst()) {
+            String currency = data.getString(COL_CURRENCY);
+            String baseCurrency = data.getString(COL_BASE_CURRENCY);
+            String buy = data.getString(COL_BUY);
+            String sale = data.getString(COL_SALE);
+
+            textViewCurrency.setText(currency);
+            textViewBaseCurrency.setText(baseCurrency);
+            textViewBuyPrice.setText(buy);
+            textViewSalePrice.setText(sale);
+        }
+    }
+
+    @Override
+    public void onLoaderReset(Loader<Cursor> loader) {
+
+    }
+
     // Uses AsyncTask to create a task away from the main UI thread. This task takes a
     // URL string and uses it to create an HttpUrlConnection. Once the connection
     // has been established, the AsyncTask downloads the contents of the webpage as
@@ -98,12 +159,12 @@ public class MainActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(List result) {
             if(result != null) {
-                JsonMessage jasonMessage = (JsonMessage) result.get(0);
+                JsonMessage jsonMessage = (JsonMessage) result.get(0);
 
-                textViewCurrency.setText(jasonMessage.getCurrency());
-                textViewBaseCurrency.setText(jasonMessage.getBaseCurrency());
-                textViewBuyPrice.setText(jasonMessage.getBuyPrice());
-                textViewSalePrice.setText(jasonMessage.getSalePrice());
+                textViewCurrency.setText(jsonMessage.getCurrency());
+                textViewBaseCurrency.setText(jsonMessage.getBaseCurrency());
+                textViewBuyPrice.setText(jsonMessage.getBuyPrice());
+                textViewSalePrice.setText(jsonMessage.getSalePrice());
             }
         }
     }
@@ -145,76 +206,5 @@ public class MainActivity extends AppCompatActivity {
     public List readIt(InputStream stream) throws IOException, UnsupportedEncodingException {
         List list = JsonParser.readJsonStream(stream);
         return list;
-/*        Reader reader = null;
-        reader = new InputStreamReader(stream, "UTF-8");
-        char[] buffer = new char[len];
-        reader.read(buffer);
-        return new String(buffer);*/
     }
-
-    private String getHttpRequest() {
-        // These two need to be declared outside the try/catch
-        // so that they can be closed in the finally block.
-        HttpURLConnection urlConnection = null;
-        BufferedReader reader = null;
-
-        // Will contain the raw JSON response as a string.
-        String forecastJsonStr = null;
-
-        try {
-            // Construct the URL for the OpenWeatherMap query
-            // Possible parameters are avaiable at OWM's forecast API page, at
-            // http://openweathermap.org/API#forecast
-            URL url = new URL("https://api.privatbank.ua/p24api/pubinfo?exchange&json&coursid=11");
-
-            // Create the request to OpenWeatherMap, and open the connection
-            urlConnection = (HttpURLConnection) url.openConnection();
-            urlConnection.setRequestMethod("GET");
-            urlConnection.connect();
-
-            // Read the input stream into a String
-            InputStream inputStream = urlConnection.getInputStream();
-            StringBuffer buffer = new StringBuffer();
-            if (inputStream == null) {
-                // Nothing to do.
-                return null;
-            }
-            reader = new BufferedReader(new InputStreamReader(inputStream));
-
-            String line;
-            while ((line = reader.readLine()) != null) {
-                // Since it's JSON, adding a newline isn't necessary (it won't affect parsing)
-                // But it does make debugging a *lot* easier if you print out the completed
-                // buffer for debugging.
-                buffer.append(line + "\n");
-            }
-
-            if (buffer.length() == 0) {
-                // Stream was empty.  No point in parsing.
-                return null;
-            }
-            forecastJsonStr = buffer.toString();
-        } catch (IOException e) {
-            Log.e("PlaceholderFragment", "Error ", e);
-            // If the code didn't successfully get the weather data, there's no point in attemping
-            // to parse it.
-            return null;
-        } finally{
-            if (urlConnection != null) {
-                urlConnection.disconnect();
-            }
-            if (reader != null) {
-                try {
-                    reader.close();
-                } catch (final IOException e) {
-                    Log.e("PlaceholderFragment", "Error closing stream", e);
-                }
-            }
-        }
-
-        return forecastJsonStr;
-    }
-
-
-
 }
