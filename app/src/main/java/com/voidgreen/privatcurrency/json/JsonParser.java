@@ -1,4 +1,4 @@
-package com.voidgreen.privatcurrency;
+package com.voidgreen.privatcurrency.json;
 
 import android.util.JsonReader;
 

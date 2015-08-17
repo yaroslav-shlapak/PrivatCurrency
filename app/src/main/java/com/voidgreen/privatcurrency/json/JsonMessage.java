@@ -1,4 +1,4 @@
-package com.voidgreen.privatcurrency;
+package com.voidgreen.privatcurrency.json;
 
 /**
  * Created by y.shlapak on Jul 29, 2015.
