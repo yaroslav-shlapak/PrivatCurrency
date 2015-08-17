@@ -1,16 +1,17 @@
 package com.voidgreen.privatcurrency;
 
+import android.app.Activity;
+import android.app.LoaderManager;
+import android.content.ContentValues;
 import android.content.Context;
+import android.content.CursorLoader;
+import android.content.Loader;
 import android.database.Cursor;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.v4.app.LoaderManager;
-import android.support.v4.content.CursorLoader;
-import android.support.v4.content.Loader;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -19,6 +20,8 @@ import android.widget.TextView;
 
 import com.voidgreen.privatcurrency.data.CurrencyContract;
 import com.voidgreen.privatcurrency.data.CurrencyContract.CardEntry;
+import com.voidgreen.privatcurrency.json.JsonMessage;
+import com.voidgreen.privatcurrency.json.JsonParser;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -27,7 +30,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity  implements LoaderManager.LoaderCallbacks<Cursor>  {
+public class MainActivity extends Activity implements LoaderManager.LoaderCallbacks<Cursor>  {
     TextView textViewCurrency, textViewBaseCurrency, textViewBuyPrice, textViewSalePrice;
     private static final String DEBUG_TAG = "HttpExample";
     private Uri mUri;
@@ -52,7 +55,6 @@ public class MainActivity extends AppCompatActivity  implements LoaderManager.Lo
         setContentView(R.layout.activity_main);
 
         mUri = CurrencyContract.CardEntry.buildCardUri(0);
-
 
         textViewCurrency = (TextView) findViewById(R.id.textViewCurrency);
         textViewBaseCurrency = (TextView) findViewById(R.id.textViewBaseCurrency);
@@ -161,12 +163,35 @@ public class MainActivity extends AppCompatActivity  implements LoaderManager.Lo
             if(result != null) {
                 JsonMessage jsonMessage = (JsonMessage) result.get(0);
 
-                textViewCurrency.setText(jsonMessage.getCurrency());
-                textViewBaseCurrency.setText(jsonMessage.getBaseCurrency());
-                textViewBuyPrice.setText(jsonMessage.getBuyPrice());
-                textViewSalePrice.setText(jsonMessage.getSalePrice());
+                String currency = jsonMessage.getCurrency();
+                String baseCurrency = jsonMessage.getBaseCurrency();
+                String buy = jsonMessage.getBuyPrice();
+                String sale = jsonMessage.getSalePrice();
+
+
+                putDataToDatabase(jsonMessage);
+
+                textViewCurrency.setText(currency);
+                textViewBaseCurrency.setText(baseCurrency);
+                textViewBuyPrice.setText(buy);
+                textViewSalePrice.setText(sale);
             }
         }
+    }
+
+    private void fillData() {
+
+        // Fields from the database (projection)
+        // Must include the _id column for the adapter to work
+/*        String[] from = new String[] { TodoTable.COLUMN_SUMMARY };
+        // Fields on the UI to which we map
+        int[] to = new int[] { R.id.label };*/
+
+        getLoaderManager().initLoader(0, null, this);
+/*        adapter = new SimpleCursorAdapter(this, R.layout.todo_row, null, from,
+                to, 0);
+
+        setListAdapter(adapter);*/
     }
 
     // Given a URL, establishes an HttpUrlConnection and retrieves
@@ -206,5 +231,32 @@ public class MainActivity extends AppCompatActivity  implements LoaderManager.Lo
     public List readIt(InputStream stream) throws IOException, UnsupportedEncodingException {
         List list = JsonParser.readJsonStream(stream);
         return list;
+    }
+
+    private void putDataToDatabase(JsonMessage jsonMessage) {
+        // Defines an object to contain the new values to insert
+        ContentValues mNewValues = new ContentValues();
+
+/*
+ * Sets the values of each column and inserts the word. The arguments to the "put"
+ * method are "column name" and "value"
+ */
+        mNewValues.put(CardEntry.COLUMN_BASE_CURRENCY, jsonMessage.getBaseCurrency());
+        mNewValues.put(CardEntry.COLUMN_CURRENCY, jsonMessage.getCurrency());
+        mNewValues.put(CardEntry.COLUMN_BUY, jsonMessage.getBuyPrice());
+        mNewValues.put(CardEntry.COLUMN_SALE, jsonMessage.getSalePrice());
+
+        mUri = getContentResolver().insert(
+                CurrencyContract.CardEntry.CONTENT_URI,   // the user dictionary content URI
+                mNewValues                          // the values to insert
+        );
+
+        getLoaderManager().initLoader(0, null, this);
+
+
+    }
+
+    private void updateTextViews() {
+
     }
 }

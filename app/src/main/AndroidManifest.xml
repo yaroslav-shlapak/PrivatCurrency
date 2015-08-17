@@ -19,12 +19,13 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <provider
+            android:authorities="com.voidgreen.privatcurrency.app"
+            android:name=".data.CurrencyProvider"
+            android:exported="false"
+            android:syncable="true" />
     </application>
 
-    <provider
-        android:authorities="com.voidgreen.privatcurrency.app"
-        android:name=".data.CurrencyProvider"
-        android:exported="false"
-        android:syncable="true" />
+
 
 </manifest>
