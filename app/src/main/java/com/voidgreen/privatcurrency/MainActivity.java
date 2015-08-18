@@ -54,7 +54,10 @@ public class MainActivity extends Activity implements LoaderManager.LoaderCallba
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+
+
         mUri = CurrencyContract.CardEntry.buildCardUri(0);
+        getLoaderManager().initLoader(0, null, this);
 
         textViewCurrency = (TextView) findViewById(R.id.textViewCurrency);
         textViewBaseCurrency = (TextView) findViewById(R.id.textViewBaseCurrency);
@@ -246,12 +249,13 @@ public class MainActivity extends Activity implements LoaderManager.LoaderCallba
         mNewValues.put(CardEntry.COLUMN_BUY, jsonMessage.getBuyPrice());
         mNewValues.put(CardEntry.COLUMN_SALE, jsonMessage.getSalePrice());
 
+
         mUri = getContentResolver().insert(
                 CurrencyContract.CardEntry.CONTENT_URI,   // the user dictionary content URI
                 mNewValues                          // the values to insert
         );
 
-        getLoaderManager().initLoader(0, null, this);
+
 
 
     }

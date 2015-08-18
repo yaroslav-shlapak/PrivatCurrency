@@ -71,7 +71,7 @@ public class CurrencyContract {
         public static final String CONTENT_ITEM_TYPE = getContentItemType(PATH_CARD);
 
         public static Uri buildCardUri(long id) {
-            return getBuildUri(CONTENT_URI, id);
+            return CONTENT_URI;//getBuildUri(CONTENT_URI, id);
         }
     }
 
