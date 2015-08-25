@@ -18,10 +18,10 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
-import com.voidgreen.privatcurrency.data.CurrencyContract;
 import com.voidgreen.privatcurrency.data.CurrencyContract.CardEntry;
 import com.voidgreen.privatcurrency.json.JsonMessage;
 import com.voidgreen.privatcurrency.json.JsonParser;
+import com.voidgreen.privatcurrency.utilities.Constants;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -56,7 +56,7 @@ public class MainActivity extends Activity implements LoaderManager.LoaderCallba
 
 
 
-        mUri = CurrencyContract.CardEntry.buildCardUri(0);
+        mUri = CardEntry.CONTENT_URI;
         getLoaderManager().initLoader(0, null, this);
 
         textViewCurrency = (TextView) findViewById(R.id.textViewCurrency);
@@ -95,12 +95,11 @@ public class MainActivity extends Activity implements LoaderManager.LoaderCallba
     // Before attempting to fetch the URL, makes sure that there is a network connection.
     public void myClickHandler(View view) {
         // Gets the URL from the UI's text field.
-        String stringUrl = "https://api.privatbank.ua/p24api/pubinfo?exchange&json&coursid=11";
         ConnectivityManager connMgr = (ConnectivityManager)
                 getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
         if (networkInfo != null && networkInfo.isConnected()) {
-            new DownloadWebpageTask().execute(stringUrl);
+            new DownloadWebpageTask().execute(Constants.EXCHANGE_RATE_CARD);
         } else {
             //textView.setText("No network connection available.");
         }
@@ -164,15 +163,18 @@ public class MainActivity extends Activity implements LoaderManager.LoaderCallba
         @Override
         protected void onPostExecute(List result) {
             if(result != null) {
+                for (int i = 0; i < result.size(); i++) {
+                    JsonMessage jsonMessage = (JsonMessage) result.get(i);
+
+                    insertDataToDatabase(jsonMessage);
+                }
+
                 JsonMessage jsonMessage = (JsonMessage) result.get(0);
 
                 String currency = jsonMessage.getCurrency();
                 String baseCurrency = jsonMessage.getBaseCurrency();
                 String buy = jsonMessage.getBuyPrice();
                 String sale = jsonMessage.getSalePrice();
-
-
-                putDataToDatabase(jsonMessage);
 
                 textViewCurrency.setText(currency);
                 textViewBaseCurrency.setText(baseCurrency);
@@ -236,7 +238,7 @@ public class MainActivity extends Activity implements LoaderManager.LoaderCallba
         return list;
     }
 
-    private void putDataToDatabase(JsonMessage jsonMessage) {
+    private void insertDataToDatabase(JsonMessage jsonMessage) {
         // Defines an object to contain the new values to insert
         ContentValues mNewValues = new ContentValues();
 
@@ -251,9 +253,10 @@ public class MainActivity extends Activity implements LoaderManager.LoaderCallba
 
 
         mUri = getContentResolver().insert(
-                CurrencyContract.CardEntry.CONTENT_URI,   // the user dictionary content URI
+                CardEntry.CONTENT_URI,   // the user dictionary content URI
                 mNewValues                          // the values to insert
         );
+        Log.d(Constants.TAG, "mUri = " + mUri);
 
 
 
