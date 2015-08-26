@@ -13,20 +13,18 @@
     <TextView android:text="@string/hello_world" android:layout_width="wrap_content"
         android:id="@+id/textViewBaseCurrency"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/textViewBuyPrice"
+        android:layout_below="@+id/textViewCurrency"
         android:layout_centerHorizontal="true" />
     <TextView android:text="@string/hello_world" android:layout_width="wrap_content"
         android:id="@+id/textViewBuyPrice"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/textViewSalePrice"
-        android:layout_alignLeft="@+id/textViewBaseCurrency"
-        android:layout_alignStart="@+id/textViewBaseCurrency" />
+        android:layout_below="@+id/textViewBaseCurrency"
+        android:layout_centerHorizontal="true" />
     <TextView android:text="@string/hello_world" android:layout_width="wrap_content"
         android:id="@+id/textViewSalePrice"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/button"
-        android:layout_alignLeft="@+id/textViewBuyPrice"
-        android:layout_alignStart="@+id/textViewBuyPrice" />
+        android:layout_below="@+id/textViewBuyPrice"
+        android:layout_centerHorizontal="true" />
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

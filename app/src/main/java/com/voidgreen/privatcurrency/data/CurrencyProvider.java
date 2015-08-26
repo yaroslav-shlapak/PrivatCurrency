@@ -142,7 +142,7 @@ public class CurrencyProvider extends ContentProvider {
         switch (match) {
             case CARD:
                 rowsDeleted = db.delete(
-                        CurrencyContract.CashEntry.TABLE_NAME,
+                        CurrencyContract.CardEntry.TABLE_NAME,
                         selection, selectionArgs);
                 break;
             case CASH:
@@ -169,7 +169,7 @@ public class CurrencyProvider extends ContentProvider {
         switch (match) {
             case CARD:
                 rowsUpdated = db.update(
-                        CurrencyContract.CashEntry.TABLE_NAME, values, selection,
+                        CurrencyContract.CardEntry.TABLE_NAME, values, selection,
                         selectionArgs);
                 break;
             case CASH:

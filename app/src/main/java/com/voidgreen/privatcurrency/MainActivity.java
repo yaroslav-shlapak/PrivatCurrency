@@ -99,7 +99,7 @@ public class MainActivity extends Activity implements LoaderManager.LoaderCallba
                 getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
         if (networkInfo != null && networkInfo.isConnected()) {
-            new DownloadWebpageTask().execute(Constants.EXCHANGE_RATE_CARD);
+            new DownloadWebpageTask().execute(Constants.EXCHANGE_RATE_CARD, Constants.EXCHANGE_RATE_CASH);
         } else {
             //textView.setText("No network connection available.");
         }
@@ -163,10 +163,25 @@ public class MainActivity extends Activity implements LoaderManager.LoaderCallba
         @Override
         protected void onPostExecute(List result) {
             if(result != null) {
-                for (int i = 0; i < result.size(); i++) {
-                    JsonMessage jsonMessage = (JsonMessage) result.get(i);
+                Cursor cursor = getContentResolver().query(
+                        mUri,
+                        DETAIL_COLUMNS,
+                        null,
+                        null,
+                        null);
+                int count = cursor.getCount();
+                if(count == 0) {
+                    for (int i = 0; i < result.size(); i++) {
+                        JsonMessage jsonMessage = (JsonMessage) result.get(i);
 
-                    insertDataToDatabase(jsonMessage);
+                        insertDataToDatabase(jsonMessage);
+                    }
+                } else if(count == 3) {
+                    for (int i = 0; i < result.size(); i++) {
+                        JsonMessage jsonMessage = (JsonMessage) result.get(i);
+
+                        updateDatabase(jsonMessage, Constants.CURENCIES[i], CardEntry.COLUMN_CURRENCY, CardEntry.CONTENT_URI);
+                    }
                 }
 
                 JsonMessage jsonMessage = (JsonMessage) result.get(0);
@@ -239,30 +254,58 @@ public class MainActivity extends Activity implements LoaderManager.LoaderCallba
     }
 
     private void insertDataToDatabase(JsonMessage jsonMessage) {
-        // Defines an object to contain the new values to insert
-        ContentValues mNewValues = new ContentValues();
-
-/*
- * Sets the values of each column and inserts the word. The arguments to the "put"
- * method are "column name" and "value"
- */
-        mNewValues.put(CardEntry.COLUMN_BASE_CURRENCY, jsonMessage.getBaseCurrency());
-        mNewValues.put(CardEntry.COLUMN_CURRENCY, jsonMessage.getCurrency());
-        mNewValues.put(CardEntry.COLUMN_BUY, jsonMessage.getBuyPrice());
-        mNewValues.put(CardEntry.COLUMN_SALE, jsonMessage.getSalePrice());
+        ContentValues mNewValues = getContentValuesFromJson(jsonMessage);
 
 
-        mUri = getContentResolver().insert(
-                CardEntry.CONTENT_URI,   // the user dictionary content URI
-                mNewValues                          // the values to insert
-        );
-        Log.d(Constants.TAG, "mUri = " + mUri);
-
-
+            mUri = getContentResolver().insert(
+                    CardEntry.CONTENT_URI,   // the user dictionary content URI
+                    mNewValues                          // the values to insert
+            );
+            Log.d(Constants.TAG, "mUri = " + mUri);
 
 
     }
 
+    private void updateDatabase(JsonMessage jsonMessage, String mSearchString, String selectionArg, Uri contentUri) {
+        ContentValues mNewValues = getContentValuesFromJson(jsonMessage);
+
+        // Constructs a selection clause that matches the word that the user entered.
+        String mSelectionClause = selectionArg + " = ?";
+
+        // Moves the user's input string to the selection arguments.
+        String[] mSelectionArgs = {""};
+
+        mSelectionArgs[0] = mSearchString;
+
+
+        int id = getContentResolver().update(
+                contentUri,   // the user dictionary content URI
+                mNewValues,                          // the values to insert
+                mSelectionClause,
+                mSelectionArgs
+        );
+        Log.d(Constants.TAG, "updateDatabase : id = " + id);
+        Log.d(Constants.TAG, "updateDatabase : mSearchString = " + mSearchString);
+        Log.d(Constants.TAG, "updateDatabase : mSelectionClause = " + mSelectionClause);
+
+    }
+
+
+    private ContentValues getContentValuesFromJson(JsonMessage jsonMessage) {
+        // Defines an object to contain the new values to insert
+        ContentValues mNewValues = new ContentValues();
+
+        /*
+         * Sets the values of each column and inserts the word. The arguments to the "put"
+         * method are "column name" and "value"
+         */
+        mNewValues.put(CardEntry.COLUMN_BASE_CURRENCY, "HUY"/*jsonMessage.getBaseCurrency()*/);
+        mNewValues.put(CardEntry.COLUMN_CURRENCY, jsonMessage.getCurrency());
+        mNewValues.put(CardEntry.COLUMN_BUY, jsonMessage.getBuyPrice());
+        mNewValues.put(CardEntry.COLUMN_SALE, jsonMessage.getSalePrice());
+        return mNewValues;
+
+    }
     private void updateTextViews() {
 
     }
