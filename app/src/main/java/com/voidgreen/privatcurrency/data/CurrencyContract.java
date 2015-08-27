@@ -4,9 +4,6 @@ import android.content.ContentResolver;
 import android.content.ContentUris;
 import android.net.Uri;
 import android.provider.BaseColumns;
-import android.util.Log;
-
-import com.voidgreen.privatcurrency.utilities.Constants;
 
 /**
  * Created by y.shlapak on Aug 05, 2015.
@@ -74,8 +71,6 @@ public class CurrencyContract {
         public static final String CONTENT_ITEM_TYPE = getContentItemType(PATH_CARD);
 
         public static Uri buildCardUri(long id) {
-            Log.d(Constants.TAG, "id = " + id);
-            Log.d(Constants.TAG, "CONTENT_URI = " + CONTENT_URI);
             return getBuildUri(CONTENT_URI, id);
         }
     }

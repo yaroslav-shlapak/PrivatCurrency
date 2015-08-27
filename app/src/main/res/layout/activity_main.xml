@@ -1,37 +1,40 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
-    android:layout_height="match_parent" android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
-    android:paddingBottom="@dimen/activity_vertical_margin" tools:context=".MainActivity">
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    tools:context=".MainActivity">
 
-    <TextView android:text="@string/hello_world" android:layout_width="wrap_content"
-        android:id="@+id/textViewCurrency"
+
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true" />
-    <TextView android:text="@string/hello_world" android:layout_width="wrap_content"
-        android:id="@+id/textViewBaseCurrency"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/textViewCurrency"
-        android:layout_centerHorizontal="true" />
-    <TextView android:text="@string/hello_world" android:layout_width="wrap_content"
-        android:id="@+id/textViewBuyPrice"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/textViewBaseCurrency"
-        android:layout_centerHorizontal="true" />
-    <TextView android:text="@string/hello_world" android:layout_width="wrap_content"
-        android:id="@+id/textViewSalePrice"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/textViewBuyPrice"
-        android:layout_centerHorizontal="true" />
+        android:layout_weight="1"
+        android:baselineAligned="false">
+        <ListView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/listViewCard"
+            android:layout_weight="1" />
+        <ListView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/listViewCash"
+            android:layout_weight="1" />
+
+    </LinearLayout>
+
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Download"
         android:onClick="myClickHandler"
-        android:layout_centerVertical="true"
-        android:layout_centerHorizontal="true"
-        android:id="@+id/button" />
+        android:id="@+id/button"
+        android:layout_weight="5"
 
-</RelativeLayout>
+        android:layout_gravity="bottom" />
+
+
+</LinearLayout>
