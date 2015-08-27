@@ -299,7 +299,7 @@ public class MainActivity extends Activity implements LoaderManager.LoaderCallba
          * Sets the values of each column and inserts the word. The arguments to the "put"
          * method are "column name" and "value"
          */
-        mNewValues.put(CardEntry.COLUMN_BASE_CURRENCY, "HUY"/*jsonMessage.getBaseCurrency()*/);
+        mNewValues.put(CardEntry.COLUMN_BASE_CURRENCY, jsonMessage.getBaseCurrency());
         mNewValues.put(CardEntry.COLUMN_CURRENCY, jsonMessage.getCurrency());
         mNewValues.put(CardEntry.COLUMN_BUY, jsonMessage.getBuyPrice());
         mNewValues.put(CardEntry.COLUMN_SALE, jsonMessage.getSalePrice());
