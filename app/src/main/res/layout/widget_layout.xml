@@ -1,0 +1,30 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    tools:context=".MainActivity">
+
+    <TextView android:text="@string/batteryInfo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="50sp"
+        android:textColor="@color/white"
+        android:id="@+id/batteryInfoTextViewWidget"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <TextView
+
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/white"
+        android:textSize="17sp"
+        android:text="mV"
+        android:id="@+id/mV"
+        android:layout_alignBaseline="@+id/batteryInfoTextViewWidget"
+        android:layout_alignBottom="@+id/batteryInfoTextViewWidget"
+        android:layout_toRightOf="@+id/batteryInfoTextViewWidget"
+        android:layout_toEndOf="@+id/batteryInfoTextViewWidget" />
+
+</RelativeLayout>

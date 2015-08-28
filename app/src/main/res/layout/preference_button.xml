@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Button
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/applyButton"
+    android:text="@string/pref_apply_button_title"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:onClick="onApplyButtonClick"
+    style="@style/AppTheme">
+
+</Button>

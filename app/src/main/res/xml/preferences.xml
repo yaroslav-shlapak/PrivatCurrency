@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <PreferenceCategory android:title="TEXT SETTINGS">
+        <com.voidgreen.voltagewidget.NumberPickerPreference
+            android:defaultValue="20"
+            android:key="@string/pref_text_size_key"
+            android:summary="Change "
+            android:title="@string/pref_text_size_title" />
+        <com.voidgreen.voltagewidget.colorpickerpreference.ColorPickerPreference
+            alphaSlider="true"
+            android:defaultValue="@color/white"
+            android:key="@string/pref_text_color_key"
+            android:summary="Choose text color"
+            android:title="@string/pref_text_color_title" />
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="SAVE CONFIGURATION">
+        <Preference
+            android:key="@string/pref_apply_button_key"
+            android:layout="@layout/preference_button" />
+        />
+    </PreferenceCategory>
+</PreferenceScreen>

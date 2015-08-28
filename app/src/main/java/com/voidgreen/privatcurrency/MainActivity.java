@@ -45,7 +45,7 @@ public class MainActivity extends Activity {
     };
 
     private static final String[] DETAIL_COLUMNS_CASH = {
-            CashEntry.TABLE_NAME + "." + CardEntry._ID,
+            CashEntry.TABLE_NAME + "." + CashEntry._ID,
             CashEntry.COLUMN_BASE_CURRENCY,
             CashEntry.COLUMN_CURRENCY,
             CashEntry.COLUMN_BUY,
@@ -182,8 +182,7 @@ public class MainActivity extends Activity {
                 // Setup cursor adapter using cursor from last step
 
                 if(todoAdapter == null || todoAdapter.getCount() == 0) {
-                    Cursor cursor = new Cursor() {
-                    }
+
                     todoAdapter = new CurrencyAdapter(getApplicationContext(), data);
                     // Attach cursor adapter to the ListView
                     listViewCash.setAdapter(todoAdapter);
@@ -253,6 +252,7 @@ public class MainActivity extends Activity {
 
                 for (int i = 0; i < (result.size() - 1); i++) {
                     JsonMessage jsonMessage = (JsonMessage) result.get(i);
+                    JsonMessage firstRow = new JsonMessage("Cur", "Base", "Buy", "Sale");
 
 
                     switch ((String) result.get(result.size() - 1)) {
@@ -260,12 +260,16 @@ public class MainActivity extends Activity {
 
                             Log.d(Constants.TAG, "onPostExecute EXCHANGE_RATE_CARD : result.size = " + result.size());
                             Log.d(Constants.TAG, "onPostExecute EXCHANGE_RATE_CARD : cardCount = " + cardCount);
-                            if (cardCount < (result.size() - 1)) {
+                            if (cardCount < result.size()) {
+                                if(cardCount == 0) {
+                                    insertDataToDatabase(firstRow, CardEntry.CONTENT_URI);
+                                    cardCount++;
+                                }
                                 Log.d(Constants.TAG, "onPostExecute EXCHANGE_RATE_CARD : insert");
                                 insertDataToDatabase(jsonMessage, CardEntry.CONTENT_URI);
 
 
-                            } else if (cardCount == (result.size() - 1)) {
+                            } else if (cardCount == result.size()) {
                                 Log.d(Constants.TAG, "onPostExecute EXCHANGE_RATE_CARD : update");
                                 updateDatabase(jsonMessage, Constants.CURENCIES[i], CardEntry.COLUMN_CURRENCY, CardEntry.CONTENT_URI);
                             }
@@ -275,10 +279,14 @@ public class MainActivity extends Activity {
                             Log.d(Constants.TAG, "onPostExecute EXCHANGE_RATE_CASH : result.size = " + result.size());
                             Log.d(Constants.TAG, "onPostExecute EXCHANGE_RATE_CASH : cashCount = " + cashCount);
 
-                            if (cashCount < (result.size() - 1)) {
+                            if (cashCount < result.size()) {
+                                if(cashCount == 0) {
+                                    insertDataToDatabase(firstRow, CashEntry.CONTENT_URI);
+                                    cashCount++;
+                                }
                                 Log.d(Constants.TAG, "onPostExecute EXCHANGE_RATE_CASH : insert");
                                 insertDataToDatabase(jsonMessage, CashEntry.CONTENT_URI);
-                            } else if (cashCount == (result.size() - 1)) {
+                            } else if (cashCount == result.size()) {
                                 Log.d(Constants.TAG, "onPostExecute EXCHANGE_RATE_CASH : update");
                                 updateDatabase(jsonMessage, Constants.CURENCIES[i], CashEntry.COLUMN_CURRENCY, CashEntry.CONTENT_URI);
                             }
