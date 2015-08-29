@@ -27,15 +27,20 @@ public class CurrencyContract {
     // At least, let's hope not.  Don't be that dev, reader.  Don't be that dev.
     public static final String PATH_CASH = "cash";
     public static final String PATH_CARD = "card";
+    public static final String PATH_WIDGET = "widget";
 
     ;
     public static final String TABLE_NAME_CARD = "cardTable";
 
-    public static class CurrencyEntry implements BaseColumns {
+    public static class CurrencyEntry extends MyBaseColumns {
         public static final String COLUMN_BASE_CURRENCY = "baseCurrency";
         public static final String COLUMN_CURRENCY = "currency";
         public static final String COLUMN_BUY = "buyPrice";
         public static final String COLUMN_SALE = "salePrice";
+
+    }
+
+    public static class MyBaseColumns implements BaseColumns {
         public static String getContentType(String path) {
             return ContentResolver.CURSOR_DIR_BASE_TYPE + "/"
                     + CONTENT_AUTHORITY + "/" + path;
@@ -75,5 +80,16 @@ public class CurrencyContract {
         }
     }
 
+    public static class WidgetEntry extends MyBaseColumns {
+        public static final String COLUMN_COLOR = "widgetColor";
+        public static final String COLUMN_TYPE = "operationType";
+        public static final String COLUMN_UPDATE_INTERVAL = "buyPrice";
+
+        public static final Uri CONTENT_URI = getContentUri(PATH_WIDGET);
+        public static final String TABLE_NAME = "widgetTable";
+        public static final String CONTENT_TYPE = getContentType(PATH_WIDGET);
+        public static final String CONTENT_ITEM_TYPE = getContentItemType(PATH_WIDGET);
+
+    }
 
 }

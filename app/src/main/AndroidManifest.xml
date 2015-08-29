@@ -19,11 +19,31 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <activity android:name=".settings.SettingsActivity">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_CONFIGURE"/>
+            </intent-filter>
+        </activity>
+
         <provider
             android:authorities="com.voidgreen.privatcurrency.app"
             android:name=".data.CurrencyProvider"
             android:exported="false"
             android:syncable="true" />
+
+        <receiver
+            android:name=".widget.CurrencyWidgetProvider"
+            android:icon="@mipmap/ic_launcher"
+            android:label="@string/app_name">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/widget_info" />
+        </receiver>
+        <receiver android:name=".widget.AlarmManagerBroadcastReceiver"/>
     </application>
 
 

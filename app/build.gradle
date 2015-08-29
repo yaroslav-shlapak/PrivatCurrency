@@ -11,10 +11,26 @@ android {
         versionCode 1
         versionName "1.0"
     }
+    signingConfigs {
+        release {
+            //storeFile file("C:\\Users\\Void\\Google Drive\\other\\keystore\\binary_key_for_android.jks")
+            storeFile file("/home/yaroslav/Android/keys/binary_key_for_android.jks")
+
+            storePassword "Gyroscope2012"
+            keyAlias "ReleaseKey"
+            keyPassword "Gyroscope2012"
+        }
+    }
     buildTypes {
         release {
             minifyEnabled false
+            debuggable false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+
+            signingConfig signingConfigs.release
+            zipAlignEnabled true
+        }
+        buildType {
         }
     }
 }

@@ -5,6 +5,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import com.voidgreen.privatcurrency.data.CurrencyContract.CardEntry;
 import com.voidgreen.privatcurrency.data.CurrencyContract.CashEntry;
+import com.voidgreen.privatcurrency.data.CurrencyContract.WidgetEntry;
 
 /**
  * Created by y.shlapak on Aug 05, 2015.
@@ -41,8 +42,17 @@ public class CurrencyDbHelper extends SQLiteOpenHelper {
                         CardEntry.COLUMN_SALE + " REAL NOT NULL " +
                         " );";
 
+        final String SQL_CREATE_WIDGET_TABLE =
+                "CREATE TABLE " + WidgetEntry.TABLE_NAME + " (" +
+                        WidgetEntry._ID + " INTEGER PRIMARY KEY," +
+                        WidgetEntry.COLUMN_COLOR + " INTEGER NOT NULL, " +
+                        WidgetEntry.COLUMN_TYPE + " TEXT NOT NULL, " +
+                        WidgetEntry.COLUMN_UPDATE_INTERVAL + " REAL NOT NULL, " +
+                        " );";
+
         sqLiteDatabase.execSQL(SQL_CREATE_CASH_TABLE);
         sqLiteDatabase.execSQL(SQL_CREATE_CARD_TABLE);
+        sqLiteDatabase.execSQL(SQL_CREATE_WIDGET_TABLE);
 
     }
 
@@ -57,6 +67,7 @@ public class CurrencyDbHelper extends SQLiteOpenHelper {
         // should be your top priority before modifying this method.
         sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + CardEntry.TABLE_NAME);
         sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + CashEntry.TABLE_NAME);
+        sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + WidgetEntry.TABLE_NAME);
         onCreate(sqLiteDatabase);
     }
 }

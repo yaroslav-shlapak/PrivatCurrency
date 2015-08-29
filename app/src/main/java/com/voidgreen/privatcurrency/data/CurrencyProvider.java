@@ -18,6 +18,7 @@ public class CurrencyProvider extends ContentProvider {
     private CurrencyDbHelper mOpenHelper;
     static final int CARD = 100;
     static final int CASH = 101;
+    static final int WIDGET = 102;
     /*
         Students: Here is where you need to create the UriMatcher. This UriMatcher will
         match each URI to the WEATHER, WEATHER_WITH_LOCATION, WEATHER_WITH_LOCATION_AND_DATE,
@@ -37,6 +38,7 @@ public class CurrencyProvider extends ContentProvider {
         // For each type of URI you want to add, create a corresponding code.
         matcher.addURI(authority, CurrencyContract.PATH_CARD, CARD);
         matcher.addURI(authority, CurrencyContract.PATH_CASH, CASH);
+        matcher.addURI(authority, CurrencyContract.PATH_WIDGET, WIDGET);
         return matcher;
     }
 
@@ -59,6 +61,8 @@ public class CurrencyProvider extends ContentProvider {
                 return CurrencyContract.CardEntry.CONTENT_TYPE;
             case CASH:
                 return CurrencyContract.CashEntry.CONTENT_TYPE;
+            case WIDGET:
+                return CurrencyContract.WidgetEntry.CONTENT_TYPE;
             default:
                 throw new UnsupportedOperationException("Unknown uri: " + uri);
         }
@@ -85,6 +89,17 @@ public class CurrencyProvider extends ContentProvider {
             case CASH:
                 retCursor = mOpenHelper.getReadableDatabase().query(
                         CurrencyContract.CashEntry.TABLE_NAME,
+                        projection,
+                        selection,
+                        selectionArgs,
+                        null,
+                        null,
+                        sortOrder
+                );
+                break;
+            case WIDGET:
+                retCursor = mOpenHelper.getReadableDatabase().query(
+                        CurrencyContract.WidgetEntry.TABLE_NAME,
                         projection,
                         selection,
                         selectionArgs,
@@ -125,6 +140,15 @@ public class CurrencyProvider extends ContentProvider {
                     throw new android.database.SQLException("Failed to insert row into " + uri);
                 break;
             }
+            case WIDGET: {
+                long _id = db.insert(
+                        CurrencyContract.WidgetEntry.TABLE_NAME, null, values);
+                if ( _id > 0 )
+                    returnUri = CurrencyContract.CashEntry.buildCashUri(_id);
+                else
+                    throw new android.database.SQLException("Failed to insert row into " + uri);
+                break;
+            }
             default:
                 throw new UnsupportedOperationException("Unknown uri: " + uri);
         }
@@ -148,6 +172,11 @@ public class CurrencyProvider extends ContentProvider {
             case CASH:
                 rowsDeleted = db.delete(
                         CurrencyContract.CashEntry.TABLE_NAME,
+                        selection, selectionArgs);
+                break;
+            case WIDGET:
+                rowsDeleted = db.delete(
+                        CurrencyContract.WidgetEntry.TABLE_NAME,
                         selection, selectionArgs);
                 break;
             default:
@@ -175,6 +204,11 @@ public class CurrencyProvider extends ContentProvider {
             case CASH:
                 rowsUpdated = db.update(
                         CurrencyContract.CashEntry.TABLE_NAME, values, selection,
+                        selectionArgs);
+                break;
+            case WIDGET:
+                rowsUpdated = db.update(
+                        CurrencyContract.WidgetEntry.TABLE_NAME, values, selection,
                         selectionArgs);
                 break;
             default:
