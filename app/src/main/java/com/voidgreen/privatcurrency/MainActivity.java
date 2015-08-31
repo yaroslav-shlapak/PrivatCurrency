@@ -17,6 +17,7 @@ import android.widget.ListView;
 import com.voidgreen.privatcurrency.adapters.CurrencyAdapter;
 import com.voidgreen.privatcurrency.data.CurrencyContract.CardEntry;
 import com.voidgreen.privatcurrency.data.CurrencyContract.CashEntry;
+import com.voidgreen.privatcurrency.data.DownloadCurrencyTask;
 import com.voidgreen.privatcurrency.utilities.Constants;
 
 public class MainActivity extends Activity {

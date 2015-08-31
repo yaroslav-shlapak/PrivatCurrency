@@ -15,7 +15,6 @@ import com.voidgreen.privatcurrency.R;
  * Created by y.shlapak on Jun 15, 2015.
  */
 public class Utility {
-    public final static String DEFAULT_STRING = "4000";
     private static AlarmManager alarmMgr;
     private static PendingIntent alarmIntent;
 
@@ -32,7 +31,7 @@ public class Utility {
     }
 
     private static RemoteViews updateWidgetListView(Context context,
-                                             int appWidgetId) {
+                                                    int appWidgetId) {
 
         //which layout to show on widget
         RemoteViews remoteViews = new RemoteViews(
@@ -62,7 +61,7 @@ public class Utility {
     public static void startAlarm(Context context) {
         alarmMgr = (AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
         alarmIntent = PendingIntent.getBroadcast(context, 0, new Intent(context, AlarmManagerBroadcastReceiver.class), 0);
-        alarmMgr.setInexactRepeating(AlarmManager.RTC, SystemClock.elapsedRealtime() + 10 * 1000, 1000, alarmIntent);
+        alarmMgr.setInexactRepeating(AlarmManager.RTC, SystemClock.elapsedRealtime() + 10 * 1000, 3000, alarmIntent);
     }
 
     public static void stopAlarm() {

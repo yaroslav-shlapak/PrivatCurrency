@@ -53,7 +53,8 @@ public class SettingsActivity extends PreferenceActivity implements SharedPrefer
     private void saveWidgetModification() {
         //Utility.saveBatteryInfo(context, Utility.getSavedBatteryInfo(context));
         AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(context);
-        Utility.updateWidget(context, appWidgetManager, views, mAppWidgetId);
+        int[] ids = {mAppWidgetId};
+        Utility.updateAllWidgets(context, appWidgetManager, ids);
 
         Intent resultValue = new Intent();
         resultValue.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, mAppWidgetId);

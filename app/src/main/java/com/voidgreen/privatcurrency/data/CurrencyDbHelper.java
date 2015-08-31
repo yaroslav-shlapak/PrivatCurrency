@@ -47,7 +47,7 @@ public class CurrencyDbHelper extends SQLiteOpenHelper {
                         WidgetEntry._ID + " INTEGER PRIMARY KEY," +
                         WidgetEntry.COLUMN_COLOR + " INTEGER NOT NULL, " +
                         WidgetEntry.COLUMN_TYPE + " TEXT NOT NULL, " +
-                        WidgetEntry.COLUMN_UPDATE_INTERVAL + " REAL NOT NULL, " +
+                        WidgetEntry.COLUMN_UPDATE_INTERVAL + " REAL NOT NULL" +
                         " );";
 
         sqLiteDatabase.execSQL(SQL_CREATE_CASH_TABLE);

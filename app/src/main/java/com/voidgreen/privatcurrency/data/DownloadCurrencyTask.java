@@ -1,4 +1,4 @@
-package com.voidgreen.privatcurrency;
+package com.voidgreen.privatcurrency.data;
 
 import android.content.ContentValues;
 import android.content.Context;
