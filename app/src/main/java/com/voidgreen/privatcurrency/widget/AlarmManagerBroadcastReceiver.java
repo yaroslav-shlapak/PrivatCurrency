@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
 
+import com.voidgreen.privatcurrency.data.DownloadCurrencyTask;
 import com.voidgreen.privatcurrency.utilities.Constants;
 
 /**
@@ -21,6 +22,7 @@ public class AlarmManagerBroadcastReceiver extends BroadcastReceiver {
         ComponentName thisWidget = new ComponentName(context, CurrencyWidgetProvider.class);
 
         Log.d(Constants.TAG, "AlarmManagerBroadcastReceiver onReceive");
+        new DownloadCurrencyTask(context).execute(Constants.EXCHANGE_RATE_CARD);
 
         Utility.updateAllWidgets(context, appWidgetManager, appWidgetManager.getAppWidgetIds(thisWidget));
 
