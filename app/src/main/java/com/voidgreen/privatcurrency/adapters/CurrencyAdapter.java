@@ -8,8 +8,8 @@ import android.view.ViewGroup;
 import android.widget.CursorAdapter;
 import android.widget.TextView;
 
-import com.voidgreen.privatcurrency.MainActivity;
 import com.voidgreen.privatcurrency.R;
+import com.voidgreen.privatcurrency.utilities.Constants;
 
 /**
  * Created by y.shlapak on Aug 27, 2015.
@@ -36,10 +36,10 @@ public class CurrencyAdapter extends CursorAdapter {
         TextView textViewBuyPrice = (TextView) view.findViewById(R.id.textViewBuyPrice);
         TextView textViewSalePrice = (TextView) view.findViewById(R.id.textViewSalePrice);
 
-        String currency = cursor.getString(MainActivity.COL_CURRENCY);
-        String baseCurrency = cursor.getString(MainActivity.COL_BASE_CURRENCY);
-        String buy = cursor.getString(MainActivity.COL_BUY);
-        String sale = cursor.getString(MainActivity.COL_SALE);
+        String currency = cursor.getString(Constants.COL_CURRENCY);
+        String baseCurrency = cursor.getString(Constants.COL_BASE_CURRENCY);
+        String buy = cursor.getString(Constants.COL_BUY);
+        String sale = cursor.getString(Constants.COL_SALE);
 
         textViewCurrency.setText(currency);
         textViewBaseCurrency.setText(baseCurrency);

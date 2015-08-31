@@ -3,10 +3,9 @@ package com.voidgreen.privatcurrency.widget;
 import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.appwidget.AppWidgetManager;
-import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.SystemClock;
 import android.widget.RemoteViews;
 
@@ -21,21 +20,38 @@ public class Utility {
     private static PendingIntent alarmIntent;
 
 
-    public static void updateAllWidgets(Context context) {
-/*        AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(context);
-        ComponentName thisWidget = new ComponentName(context,
-                CurrencyWidgetProvider.class);
-        RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.widget_layout);
+    public static void updateAllWidgets(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
 
-        for (int widgetId : appWidgetManager.getAppWidgetIds(thisWidget)) {
-            updateWidget(context, appWidgetManager, views, widgetId);
-            appWidgetManager.updateAppWidget(widgetId, views);
-        }*/
+        for (int widgetId : appWidgetIds) {
+
+            RemoteViews remoteViews = updateWidgetListView(context, widgetId);
+            appWidgetManager.updateAppWidget(widgetId,
+                    remoteViews);
+        }
+
     }
 
-    public static void updateWidget(Context context, AppWidgetManager appWidgetManager, RemoteViews views, int widgetId) {
+    private static RemoteViews updateWidgetListView(Context context,
+                                             int appWidgetId) {
 
+        //which layout to show on widget
+        RemoteViews remoteViews = new RemoteViews(
+                context.getPackageName(), R.layout.widget_layout);
 
+        //RemoteViews Service needed to provide adapter for ListView
+        Intent svcIntent = new Intent(context, WidgetService.class);
+        //passing app widget id to that RemoteViews Service
+        svcIntent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId);
+        //setting a unique Uri to the intent
+        //don't know its purpose to me right now
+        svcIntent.setData(Uri.parse(
+                svcIntent.toUri(Intent.URI_INTENT_SCHEME)));
+        //setting adapter to listview of the widget
+        remoteViews.setRemoteAdapter(appWidgetId, R.id.listViewWidget,
+                svcIntent);
+        //setting an empty view in case of no data
+        //remoteViews.setEmptyView(R.id.listViewWidget, R.id.empty_view);
+        return remoteViews;
     }
 
 

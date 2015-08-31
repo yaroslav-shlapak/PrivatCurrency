@@ -3,6 +3,7 @@ package com.voidgreen.privatcurrency.widget;
 /**
  * Created by yaroslav on 8/29/15.
  */
+
 import android.content.Intent;
 import android.widget.RemoteViewsService;
 

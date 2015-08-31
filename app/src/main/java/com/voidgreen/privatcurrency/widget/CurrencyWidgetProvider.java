@@ -4,13 +4,14 @@ import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProvider;
-import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+import android.util.Log;
 import android.widget.RemoteViews;
 
 import com.voidgreen.privatcurrency.R;
+import com.voidgreen.privatcurrency.utilities.Constants;
 
 /**
  * Created by y.shlapak on Jun 10, 2015.
@@ -20,7 +21,6 @@ public class CurrencyWidgetProvider extends AppWidgetProvider {
     private PendingIntent alarmIntent;
     @Override
     public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
-        super.onUpdate(context, appWidgetManager, appWidgetIds);
 
 /*        ComponentName thisWidget = new ComponentName(context,
                 CurrencyWidgetProvider.class);
@@ -30,28 +30,16 @@ public class CurrencyWidgetProvider extends AppWidgetProvider {
             views.
             appWidgetManager.updateAppWidget(widgetId, views);
         }*/
+        Log.d(Constants.TAG, "CurrencyWidgetProvider onUpdate");
         for (int i=0; i<appWidgetIds.length; i++) {
-            Intent svcIntent=new Intent(ctxt, WidgetService.class);
 
-            svcIntent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetIds[i]);
-            svcIntent.setData(Uri.parse(svcIntent.toUri(Intent.URI_INTENT_SCHEME)));
+            RemoteViews remoteViews = updateWidgetListView(context,
+                    appWidgetIds[i]);
+            appWidgetManager.updateAppWidget(appWidgetIds[i],
+                    remoteViews);
 
-            RemoteViews widget=new RemoteViews(ctxt.getPackageName(),
-                    R.layout.widget_layout);
-
-            widget.setRemoteAdapter(appWidgetIds[i], R.id.words,
-                    svcIntent);
-
-            Intent clickIntent=new Intent(ctxt, LoremActivity.class);
-            PendingIntent clickPI=PendingIntent
-                    .getActivity(ctxt, 0,
-                            clickIntent,
-                            PendingIntent.FLAG_UPDATE_CURRENT);
-
-            widget.setPendingIntentTemplate(R.id.words, clickPI);
-
-            appWidgetManager.updateAppWidget(appWidgetIds[i], widget);
         }
+        super.onUpdate(context, appWidgetManager, appWidgetIds);
     }
 
 /*    @Override
@@ -64,6 +52,30 @@ public class CurrencyWidgetProvider extends AppWidgetProvider {
         Utility.showToast(context, "CurrencyWidgetProvider:onDeleted");
     }*/
 
+
+    private RemoteViews updateWidgetListView(Context context,
+                                             int appWidgetId) {
+
+        //which layout to show on widget
+        RemoteViews remoteViews = new RemoteViews(
+                context.getPackageName(),R.layout.widget_layout);
+
+        // Here we setup the intent which points to the StackViewService which will
+        // provide the views for this collection.
+        Intent svcIntent = new Intent(context, WidgetService.class);
+        //passing app widget id to that RemoteViews Service
+        svcIntent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId);
+        // When intents are compared, the extras are ignored, so we need to embed the extras
+        // into the data so that the extras will not be ignored.
+        svcIntent.setData(Uri.parse(
+                svcIntent.toUri(Intent.URI_INTENT_SCHEME)));
+        //setting adapter to listview of the widget
+        remoteViews.setRemoteAdapter( R.id.listViewWidget,
+                svcIntent);
+        //setting an empty view in case of no data
+        //remoteViews.setEmptyView(R.id.listViewWidget, R.id.empty_view);
+        return remoteViews;
+    }
     @Override
     public void onEnabled(Context context) {
         super.onEnabled(context);

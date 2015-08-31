@@ -39,8 +39,6 @@ public class SettingsActivity extends PreferenceActivity implements SharedPrefer
                     AppWidgetManager.INVALID_APPWIDGET_ID);
         }
 
-        Utility.startBatteryInfoService(context);
-        Utility.startUpdateService(context);
 
         Utility.startAlarm(context);
 
@@ -53,7 +51,7 @@ public class SettingsActivity extends PreferenceActivity implements SharedPrefer
     }
 
     private void saveWidgetModification() {
-        Utility.saveBatteryInfo(context, Utility.getSavedBatteryInfo(context));
+        //Utility.saveBatteryInfo(context, Utility.getSavedBatteryInfo(context));
         AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(context);
         Utility.updateWidget(context, appWidgetManager, views, mAppWidgetId);
 
