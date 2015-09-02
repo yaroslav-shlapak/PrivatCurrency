@@ -15,6 +15,7 @@ import com.voidgreen.privatcurrency.utilities.Constants;
 public class CurrencyWidgetProvider extends AppWidgetProvider {
     private AlarmManager alarmMgr;
     private PendingIntent alarmIntent;
+
     @Override
     public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
 
@@ -36,8 +37,9 @@ public class CurrencyWidgetProvider extends AppWidgetProvider {
     public void onEnabled(Context context) {
         super.onEnabled(context);
 
-        Utility.startAlarm(context);
+        //Utility.startAlarm(context);
         Utility.showToast(context, "CurrencyWidgetProvider:onEnabled");
+        Utility.scheduleUpdate(context);
 
     }
 
@@ -45,8 +47,9 @@ public class CurrencyWidgetProvider extends AppWidgetProvider {
     public void onDisabled(Context context) {
         super.onDisabled(context);
 
-        Utility.stopAlarm();
+        //Utility.stopAlarm();
         Utility.showToast(context, "CurrencyWidgetProvider:onDisabled");
+        Utility.clearUpdate(context);
     }
 
 
