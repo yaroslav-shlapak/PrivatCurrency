@@ -28,7 +28,7 @@ public class CurrencyWidgetProvider extends AppWidgetProvider {
     public void onDeleted(Context context, int[] appWidgetIds) {
         super.onDeleted(context, appWidgetIds);
 
-        Utility.stopAlarm();
+        //Utility.stopAlarm();
         Utility.showToast(context, "CurrencyWidgetProvider:onDeleted");
     }
 

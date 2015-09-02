@@ -40,7 +40,7 @@ public class SettingsActivity extends PreferenceActivity implements SharedPrefer
         }
 
 
-        Utility.startAlarm(context);
+        //Utility.startAlarm(context);
 
         initSummary(getPreferenceScreen());
 

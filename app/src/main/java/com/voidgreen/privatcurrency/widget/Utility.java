@@ -17,9 +17,6 @@ import com.voidgreen.privatcurrency.utilities.Constants;
  * Created by y.shlapak on Jun 15, 2015.
  */
 public class Utility {
-    private static AlarmManager alarmMgr;
-    private static PendingIntent alarmIntent;
-
 
     public static void updateAllWidgets(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
 
@@ -62,28 +59,18 @@ public class Utility {
         //Toast.makeText(context, string, Toast.LENGTH_LONG).show();
     }
 
-    public static void startAlarm(Context context) {
-        alarmMgr = (AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
-        alarmIntent = PendingIntent.getBroadcast(context, 0, new Intent(context, AlarmManagerBroadcastReceiver.class), 0);
-        alarmMgr.setInexactRepeating(AlarmManager.RTC, SystemClock.elapsedRealtime() + 3 * 1000, 10000, alarmIntent);
-        Log.d(Constants.TAG, "Utility startAlarm");
-    }
 
-    public static void stopAlarm() {
-        if (alarmMgr!= null) {
-            alarmMgr.cancel(alarmIntent);
-            Log.d(Constants.TAG, "Utility stopAlarm");
-        }
 
-    }
 
     public static void scheduleUpdate(Context context) {
+
+        Log.d(Constants.TAG, "Utility scheduleUpdate");
 
         AlarmManager am = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
 
         PendingIntent pi = getAlarmIntent(context);
         am.cancel(pi);
-        am.setInexactRepeating(AlarmManager.RTC, System.currentTimeMillis() + 3000, 10000, pi);
+        am.setInexactRepeating(AlarmManager.RTC, System.currentTimeMillis() + 3000, 1000, pi);
     }
 
     private static PendingIntent getAlarmIntent(Context context) {
@@ -94,6 +81,7 @@ public class Utility {
     }
 
     public static void clearUpdate(Context context) {
+        Log.d(Constants.TAG, "Utility clearUpdate");
         AlarmManager am = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
         am.cancel(getAlarmIntent(context));
     }
