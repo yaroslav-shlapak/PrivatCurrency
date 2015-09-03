@@ -5,8 +5,10 @@ import android.app.PendingIntent;
 import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProvider;
 import android.content.Context;
+import android.content.Intent;
 import android.util.Log;
 
+import com.voidgreen.privatcurrency.data.DownloadCurrencyTask;
 import com.voidgreen.privatcurrency.utilities.Constants;
 
 /**
@@ -16,8 +18,17 @@ public class CurrencyWidgetProvider extends AppWidgetProvider {
     private AlarmManager alarmMgr;
     private PendingIntent alarmIntent;
 
+
+    @Override
+    public void onReceive(Context context, Intent intent) {
+        if (Constants.ACTION_UPDATE.equals(intent.getAction())) {
+            super.onReceive(context, intent);
+        } else super.onReceive(context, intent);
+    }
+
     @Override
     public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
+        new DownloadCurrencyTask(context).execute(Constants.EXCHANGE_RATE_CARD);
 
         Log.d(Constants.TAG, "CurrencyWidgetProvider onUpdate");
         Utility.updateAllWidgets(context, appWidgetManager, appWidgetIds);
@@ -51,6 +62,12 @@ public class CurrencyWidgetProvider extends AppWidgetProvider {
         Utility.showToast(context, "CurrencyWidgetProvider:onDisabled");
         Utility.clearUpdate(context);
     }
+    private static PendingIntent getPendingSelfIntent(Context context, String action, String... content) {
+        Intent intent = new Intent(context, CurrencyWidgetProvider.class);
+        intent.setAction(action);
+        return PendingIntent.getBroadcast(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+    }
+
 
 
 }
