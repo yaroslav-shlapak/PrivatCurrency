@@ -8,13 +8,11 @@ import android.appwidget.AppWidgetManager;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
+import android.os.Binder;
 import android.util.Log;
 import android.widget.RemoteViews;
 import android.widget.RemoteViewsService;
 
-import com.voidgreen.privatcurrency.data.DownloadCurrencyTask;
 import com.voidgreen.privatcurrency.R;
 import com.voidgreen.privatcurrency.data.CurrencyContract;
 import com.voidgreen.privatcurrency.utilities.Constants;
@@ -37,6 +35,7 @@ class ViewsFactory implements RemoteViewsService.RemoteViewsFactory {
         this.context = context;
         appWidgetId = intent.getIntExtra(AppWidgetManager.EXTRA_APPWIDGET_ID,
                 AppWidgetManager.INVALID_APPWIDGET_ID);
+        Log.d(Constants.TAG, "ViewsFactory ViewsFactory");
     }
 
     public RemoteViews getViewAt(int position) {
@@ -60,27 +59,28 @@ class ViewsFactory implements RemoteViewsService.RemoteViewsFactory {
 
     @Override
     public void onCreate() {
-        DownloadCurrencyTask.mUriCard = CurrencyContract.CardEntry.CONTENT_URI;
-        DownloadCurrencyTask.mUriCash = CurrencyContract.CashEntry.CONTENT_URI;
 
-        ConnectivityManager connMgr = (ConnectivityManager)
-                context.getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
-        if (networkInfo != null && networkInfo.isConnected()) {
-            new DownloadCurrencyTask(context).execute(Constants.EXCHANGE_RATE_CARD);
-            cursor = context.getContentResolver().query(
-                    DownloadCurrencyTask.mUriCard,
-                    Constants.DETAIL_COLUMNS_CARD,
-                    null,
-                    null,
-                    null);
-            Log.d(Constants.TAG, "ViewsFactory ViewsFactory");
-        }
+        getCursor();
+    }
+
+    private void getCursor() {
+        cursor = context.getContentResolver().query(
+                CurrencyContract.CardEntry.CONTENT_URI,
+                Constants.DETAIL_COLUMNS_CARD,
+                null,
+                null,
+                null);
     }
 
     @Override
     public void onDataSetChanged() {
-
+        final long token = Binder.clearCallingIdentity();
+        try {
+            getCursor();
+        } finally {
+            Binder.restoreCallingIdentity(token);
+        }
+        Log.d(Constants.TAG, "ViewsFactory onDataSetChanged");
     }
 
     @Override
@@ -88,10 +88,12 @@ class ViewsFactory implements RemoteViewsService.RemoteViewsFactory {
         if (cursor != null) {
             cursor.close();
         }
+        Log.d(Constants.TAG, "ViewsFactory onDestroy");
     }
 
     @Override
     public int getCount() {
+
         if (cursor != null) {
             Log.d(Constants.TAG, "getCount cursor.getCount() = " + cursor.getCount());
             return cursor.getCount();

@@ -4,7 +4,9 @@ import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProvider;
+import android.content.ComponentName;
 import android.content.Context;
+import android.content.Intent;
 import android.util.Log;
 
 import com.voidgreen.privatcurrency.utilities.Constants;
@@ -53,4 +55,25 @@ public class CurrencyWidgetProvider extends AppWidgetProvider {
     }
 
 
+    private static PendingIntent getPendingSelfIntent(Context context, String action, String... content) {
+        Intent intent = new Intent(context, CurrencyWidgetProvider.class);
+        intent.setAction(action);
+        return PendingIntent.getBroadcast(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+    }
+
+    @Override
+    public void onReceive(Context context, Intent intent) {
+        if (Constants.ACTION_UPDATE.equals(intent.getAction())) {
+            Utility.downloadData(context, Constants.EXCHANGE_RATE_CARD);
+            onUpdate(context);
+        } else super.onReceive(context, intent);
+    }
+
+    private void onUpdate(Context context) {
+        AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(context);
+
+        ComponentName thisAppWidgetComponentName = new ComponentName(context.getPackageName(),getClass().getName());
+        int[] appWidgetIds = appWidgetManager.getAppWidgetIds(thisAppWidgetComponentName);
+        onUpdate(context, appWidgetManager, appWidgetIds);
+    }
 }

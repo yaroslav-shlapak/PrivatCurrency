@@ -2,12 +2,11 @@ package com.voidgreen.privatcurrency;
 
 import android.app.Activity;
 import android.app.LoaderManager;
-import android.content.Context;
 import android.content.CursorLoader;
+import android.content.Intent;
 import android.content.Loader;
 import android.database.Cursor;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -18,7 +17,9 @@ import com.voidgreen.privatcurrency.adapters.CurrencyAdapter;
 import com.voidgreen.privatcurrency.data.CurrencyContract.CardEntry;
 import com.voidgreen.privatcurrency.data.CurrencyContract.CashEntry;
 import com.voidgreen.privatcurrency.data.DownloadCurrencyTask;
+import com.voidgreen.privatcurrency.settings.SettingsActivity;
 import com.voidgreen.privatcurrency.utilities.Constants;
+import com.voidgreen.privatcurrency.widget.Utility;
 
 public class MainActivity extends Activity {
     ListView listViewCard, listViewCash;
@@ -55,16 +56,20 @@ public class MainActivity extends Activity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+        Intent intent;
+        switch (item.getItemId()) {
+            case R.id.action_settings:
+                intent = new Intent(this, SettingsActivity.class);
+                this.startActivity(intent);
+                return true;
+            case R.id.action_play:
+                intent = new Intent(Intent.ACTION_VIEW);
+                intent.setData(Uri.parse("market://details?id=com.voidgreen.privatcurrency"));
+                startActivity(intent);
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
         }
-
-        return super.onOptionsItemSelected(item);
     }
 
 
@@ -72,15 +77,8 @@ public class MainActivity extends Activity {
     // Before attempting to fetch the URL, makes sure that there is a network connection.
     public void myClickHandler(View view) {
         // Gets the URL from the UI's text field.
-        ConnectivityManager connMgr = (ConnectivityManager)
-                getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
-        if (networkInfo != null && networkInfo.isConnected()) {
-            new DownloadCurrencyTask(this).execute(Constants.EXCHANGE_RATE_CARD);
-            new DownloadCurrencyTask(this).execute(Constants.EXCHANGE_RATE_CASH);
-        } else {
-            //textView.setText("No network connection available.");
-        }
+        Utility.downloadData(getApplicationContext(), Constants.EXCHANGE_RATE_CARD);
+        Utility.downloadData(getApplicationContext(), Constants.EXCHANGE_RATE_CASH);
     }
 
     private class CardLoader implements LoaderManager.LoaderCallbacks<Cursor> {

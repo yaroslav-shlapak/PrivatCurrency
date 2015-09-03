@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="updtateTime">
+        <item>@string/item10m</item>
+        <item>@string/item1h</item>
+        <item>@string/item3h</item>
+        <item>@string/item6h</item>
+        <item>@string/item12h</item>
+        <item>@string/item24h</item>
+    </string-array>
+
+    <string-array name="updtateTimeValues">
+        <item>10</item>
+        <item>60</item>
+        <item>180</item>
+        <item>360</item>
+        <item>720</item>
+        <item>1440</item>
+    </string-array>
+
+    <string-array name="exchangeType">
+        <item>@string/itemCard</item>
+        <item>@string/itemCash</item>
+    </string-array>
+
+    <string-array name="exchangeTypeValues">
+        <item>card</item>
+        <item>cash</item>
+    </string-array>
+
+
+
+</resources>
