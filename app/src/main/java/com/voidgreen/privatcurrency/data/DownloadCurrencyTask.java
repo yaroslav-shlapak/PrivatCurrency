@@ -7,10 +7,10 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.util.Log;
 
-import com.voidgreen.privatcurrency.data.CurrencyContract;
 import com.voidgreen.privatcurrency.json.JsonMessage;
 import com.voidgreen.privatcurrency.json.JsonParser;
 import com.voidgreen.privatcurrency.utilities.Constants;
+import com.voidgreen.privatcurrency.widget.Utility;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -123,6 +123,7 @@ public class DownloadCurrencyTask extends AsyncTask<String, Void, List> {
             }
         }
 
+        Utility.updateAllWidgetsFromOutside(context);
     }
 
     // Given a URL, establishes an HttpUrlConnection and retrieves

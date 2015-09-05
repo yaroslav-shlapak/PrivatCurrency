@@ -3,7 +3,8 @@
     android:initialLayout="@layout/widget_layout"
     android:minHeight="50dp"
     android:minWidth="100dp"
-    android:updatePeriodMillis="1000">
+    android:updatePeriodMillis="1000"
+    android:previewImage="@drawable/ic_action_settings">
 <!--    android:configure="com.voidgreen.privatcurrency.settings.SettingsActivity" >-->
 
 </appwidget-provider> 
