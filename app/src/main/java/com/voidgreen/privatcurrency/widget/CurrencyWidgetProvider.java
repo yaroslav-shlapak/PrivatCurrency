@@ -20,12 +20,6 @@ public class CurrencyWidgetProvider extends AppWidgetProvider {
     private PendingIntent alarmIntent;
 
 
-    @Override
-    public void onReceive(Context context, Intent intent) {
-        if (Constants.ACTION_UPDATE.equals(intent.getAction())) {
-            super.onReceive(context, intent);
-        } else super.onReceive(context, intent);
-    }
 
     @Override
     public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
@@ -63,14 +57,6 @@ public class CurrencyWidgetProvider extends AppWidgetProvider {
         Utility.showToast(context, "CurrencyWidgetProvider:onDisabled");
         Utility.clearUpdate(context);
     }
-    private static PendingIntent getPendingSelfIntent(Context context, String action, String... content) {
-        Intent intent = new Intent(context, CurrencyWidgetProvider.class);
-        intent.setAction(action);
-        return PendingIntent.getBroadcast(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
-    }
-
-
-
     private static PendingIntent getPendingSelfIntent(Context context, String action, String... content) {
         Intent intent = new Intent(context, CurrencyWidgetProvider.class);
         intent.setAction(action);

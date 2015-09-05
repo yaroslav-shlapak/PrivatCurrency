@@ -5,13 +5,16 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.ListPreference;
 import android.preference.Preference;
 import android.preference.PreferenceActivity;
 import android.preference.PreferenceGroup;
+import android.util.Log;
 import android.view.View;
 import android.widget.RemoteViews;
 
 import com.voidgreen.privatcurrency.R;
+import com.voidgreen.privatcurrency.utilities.Constants;
 import com.voidgreen.privatcurrency.widget.Utility;
 
 /**
@@ -80,10 +83,11 @@ public class SettingsActivity extends PreferenceActivity implements SharedPrefer
     }
 
     private void updatePrefSummary(Preference p) {
-/*        if (p instanceof NumberPickerPreference) {
-            VoltageWidgetData voltageWidgetData = new VoltageWidgetData(context);
-            p.setSummary("Current font size = " + voltageWidgetData.getTextSize());
-        }*/
+        if(p instanceof ListPreference) {
+            ListPreference preference = (ListPreference) p;
+            p.setSummary(preference.getEntry());
+            Log.d(Constants.TAG, "SettingsActivity:updatePrefSummary preference.getEntry() = " + preference.getEntry());
+        }
     }
 
     @Override
