@@ -41,5 +41,8 @@
     <string name="itemCard">Card</string>
     <string name="itemCash">Cash</string>
 
+    <string name="widgetSettings">WIDGET SETTINGS</string>
+    <string name="applyButtonText">Cash</string>
+
 
 </resources>

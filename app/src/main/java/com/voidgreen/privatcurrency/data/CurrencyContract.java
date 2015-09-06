@@ -83,7 +83,8 @@ public class CurrencyContract {
     public static class WidgetEntry extends MyBaseColumns {
         public static final String COLUMN_COLOR = "widgetColor";
         public static final String COLUMN_TYPE = "operationType";
-        public static final String COLUMN_UPDATE_INTERVAL = "buyPrice";
+        public static final String COLUMN_UPDATE_INTERVAL = "updateInterval";
+        public static final String COLUMN_WIDGET_ID = "widgetId";
 
         public static final Uri CONTENT_URI = getContentUri(PATH_WIDGET);
         public static final String TABLE_NAME = "widgetTable";

@@ -28,6 +28,14 @@ public class Constants {
             CurrencyContract.CashEntry.COLUMN_BUY,
             CurrencyContract.CashEntry.COLUMN_SALE
     };
+
+    public static final String[] DETAIL_COLUMNS_WIDGET = {
+            CurrencyContract.WidgetEntry.TABLE_NAME + "." + CurrencyContract.WidgetEntry._ID,
+            CurrencyContract.WidgetEntry.COLUMN_WIDGET_ID,
+            CurrencyContract.WidgetEntry.COLUMN_COLOR,
+            CurrencyContract.WidgetEntry.COLUMN_TYPE,
+            CurrencyContract.WidgetEntry.COLUMN_UPDATE_INTERVAL
+    };
     public static final int COL_WEATHER_ID = 0;
     public static final int COL_BASE_CURRENCY = 1;
     public static final int COL_CURRENCY = 2;
