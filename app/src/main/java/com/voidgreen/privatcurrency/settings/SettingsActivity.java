@@ -15,7 +15,7 @@ import android.widget.RemoteViews;
 
 import com.voidgreen.privatcurrency.R;
 import com.voidgreen.privatcurrency.utilities.Constants;
-import com.voidgreen.privatcurrency.widget.Utility;
+import com.voidgreen.privatcurrency.utilities.Utility;
 
 /**
  * Created by y.shlapak on Jun 17, 2015.

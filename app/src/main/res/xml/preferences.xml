@@ -20,7 +20,7 @@
             android:dialogTitle="@string/pref_exchange_type_title"
             android:entries="@array/exchangeType"
             android:entryValues="@array/exchangeTypeValues"
-            android:key="@string/pref_update_period_key"
+            android:key="@string/pref_exchange_type_key"
             android:summary="@string/itemCash"
             android:title="@string/pref_exchange_type_title" />
 

@@ -19,7 +19,7 @@ import com.voidgreen.privatcurrency.data.CurrencyContract.CashEntry;
 import com.voidgreen.privatcurrency.data.DownloadCurrencyTask;
 import com.voidgreen.privatcurrency.settings.SettingsActivity;
 import com.voidgreen.privatcurrency.utilities.Constants;
-import com.voidgreen.privatcurrency.widget.Utility;
+import com.voidgreen.privatcurrency.utilities.Utility;
 
 public class MainActivity extends Activity {
     ListView listViewCard, listViewCash;

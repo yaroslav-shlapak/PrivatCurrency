@@ -10,7 +10,7 @@ import android.util.Log;
 import com.voidgreen.privatcurrency.json.JsonMessage;
 import com.voidgreen.privatcurrency.json.JsonParser;
 import com.voidgreen.privatcurrency.utilities.Constants;
-import com.voidgreen.privatcurrency.widget.Utility;
+import com.voidgreen.privatcurrency.utilities.Utility;
 
 import java.io.IOException;
 import java.io.InputStream;

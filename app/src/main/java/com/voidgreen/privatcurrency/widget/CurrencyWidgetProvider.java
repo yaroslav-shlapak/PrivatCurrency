@@ -11,6 +11,7 @@ import android.util.Log;
 
 import com.voidgreen.privatcurrency.data.DownloadCurrencyTask;
 import com.voidgreen.privatcurrency.utilities.Constants;
+import com.voidgreen.privatcurrency.utilities.Utility;
 
 /**
  * Created by y.shlapak on Jun 10, 2015.
