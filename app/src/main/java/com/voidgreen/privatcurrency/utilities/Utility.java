@@ -145,4 +145,28 @@ public class Utility {
         return sharedPreferences.getInt(resources.getString(R.string.pref_text_color_key), defaultValue);
     }
 
+    public static void setUpdateTime(String updateTime, Context context) {
+        Resources resources = context.getResources();
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context.getApplicationContext());
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString(resources.getString(R.string.pref_update_period_key), updateTime);
+        editor.commit();
+    }
+
+    public static void setExchangeType(String type, Context context) {
+        Resources resources = context.getResources();
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context.getApplicationContext());
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString(resources.getString(R.string.pref_update_period_key), type);
+        editor.commit();
+    }
+
+    public static void setTextColor(int color, Context context) {
+        Resources resources = context.getResources();
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context.getApplicationContext());
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putInt(resources.getString(R.string.pref_text_color_key), color);
+        editor.commit();
+    }
+
 }

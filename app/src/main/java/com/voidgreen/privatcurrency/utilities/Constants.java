@@ -36,9 +36,13 @@ public class Constants {
             CurrencyContract.WidgetEntry.COLUMN_TYPE,
             CurrencyContract.WidgetEntry.COLUMN_UPDATE_INTERVAL
     };
-    public static final int COL_WEATHER_ID = 0;
     public static final int COL_BASE_CURRENCY = 1;
     public static final int COL_CURRENCY = 2;
     public static final int COL_BUY = 3;
     public static final int COL_SALE = 4;
+
+    public static final int COL_WIDGET_ID = 1;
+    public static final int COL_COLOR = 2;
+    public static final int COL_TYPE = 3;
+    public static final int COL_UPDATE_INTERVAL = 4;
 }
