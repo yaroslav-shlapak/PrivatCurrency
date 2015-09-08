@@ -9,9 +9,9 @@ import com.voidgreen.privatcurrency.utilities.Constants;
 /**
  * Created by yaroslav on 9/6/15.
  */
-public class WidgetCofig {
+public class WidgetConfig {
     Cursor cursor;
-    public WidgetCofig(int id, int color, String type, int updateInterval, Context context) {
+    public WidgetConfig(int id, int color, String type, int updateInterval, Context context) {
 
         // Constructs a selection clause that matches the word that the user entered.
         String mSelectionClause = CurrencyContract.WidgetEntry.COLUMN_WIDGET_ID + " = ?";
@@ -48,7 +48,7 @@ public class WidgetCofig {
                     mSelectionClause,
                     mSelectionArgs,
                     null);
-            if(cursor != null && cursor.moveToFirst()) {
+            if(isCursorReady()) {
                 setId(cursor.getInt(Constants.COL_WIDGET_ID));
                 setUpdateInterval(cursor.getInt(Constants.COL_UPDATE_INTERVAL));
                 setType(cursor.getString(Constants.COL_TYPE));
@@ -57,7 +57,7 @@ public class WidgetCofig {
         }
     }
 
-    public WidgetCofig(int id, Context context) {
+    public WidgetConfig(int id, Context context) {
 
         // Constructs a selection clause that matches the word that the user entered.
         String mSelectionClause = CurrencyContract.WidgetEntry.COLUMN_WIDGET_ID + " = ?";
@@ -73,7 +73,7 @@ public class WidgetCofig {
                 mSelectionClause,
                 mSelectionArgs,
                 null);
-        if(cursor != null && cursor.moveToFirst()) {
+        if(isCursorReady()) {
             setId(cursor.getInt(Constants.COL_WIDGET_ID));
             setUpdateInterval(cursor.getInt(Constants.COL_UPDATE_INTERVAL));
             setType(cursor.getString(Constants.COL_TYPE));
@@ -83,7 +83,7 @@ public class WidgetCofig {
     }
 
     public boolean isCursorReady() {
-        return cursor.getCount() > 0 && cursor != null && cursor.moveToFirst();
+        return cursor != null && cursor.moveToFirst();
     }
 
     private int id;

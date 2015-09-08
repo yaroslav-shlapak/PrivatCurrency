@@ -17,7 +17,7 @@ import android.view.View;
 import android.widget.RemoteViews;
 
 import com.voidgreen.privatcurrency.R;
-import com.voidgreen.privatcurrency.data.WidgetCofig;
+import com.voidgreen.privatcurrency.data.WidgetConfig;
 import com.voidgreen.privatcurrency.utilities.Constants;
 import com.voidgreen.privatcurrency.utilities.Utility;
 
@@ -28,7 +28,7 @@ public class SettingsActivity extends PreferenceActivity implements SharedPrefer
     int mAppWidgetId;
     Context context;
     RemoteViews views;
-    WidgetCofig widgetCofig;
+    WidgetConfig widgetConfig;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -47,15 +47,15 @@ public class SettingsActivity extends PreferenceActivity implements SharedPrefer
                     AppWidgetManager.INVALID_APPWIDGET_ID);
         }
 
-        widgetCofig = new WidgetCofig(
+        widgetConfig = new WidgetConfig(
                 mAppWidgetId,
                 context
         );
 
-        if(widgetCofig.isCursorReady()) {
-            Utility.setExchangeType(widgetCofig.getType(), context);
-            Utility.setTextColor(widgetCofig.getColor(), context);
-            Utility.setUpdateTime(Integer.toString(widgetCofig.getUpdateInterval()), context);
+        if(widgetConfig.isCursorReady()) {
+            Utility.setExchangeType(widgetConfig.getType(), context);
+            Utility.setTextColor(widgetConfig.getColor(), context);
+            Utility.setUpdateTime(Integer.toString(widgetConfig.getUpdateInterval()), context);
         }
 
 
@@ -85,7 +85,7 @@ public class SettingsActivity extends PreferenceActivity implements SharedPrefer
     @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
         updatePrefSummary(findPreference(key));
-        widgetCofig = new WidgetCofig(
+        widgetConfig = new WidgetConfig(
                 mAppWidgetId,
                 Utility.getTextColor(context),
                 Utility.getExchangeType(context),
