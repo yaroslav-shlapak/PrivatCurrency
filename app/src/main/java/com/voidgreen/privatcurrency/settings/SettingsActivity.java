@@ -48,8 +48,8 @@ public class SettingsActivity extends PreferenceActivity implements SharedPrefer
                 mAppWidgetId,
                 context
         );
-        int count = widgetCofig.getCursorCount();
-        if(count != 0) {
+
+        if(widgetCofig.isCursorReady()) {
             Utility.setExchangeType(widgetCofig.getType(), context);
             Utility.setTextColor(widgetCofig.getColor(), context);
             Utility.setUpdateTime(Integer.toString(widgetCofig.getUpdateInterval()), context);

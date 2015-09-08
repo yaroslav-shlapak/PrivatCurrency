@@ -16,7 +16,7 @@
             android:summary="@string/item12h"
             android:title="@string/pref_update_period_title" />
         <ListPreference
-            android:defaultValue="@string/itemCash"
+            android:defaultValue="cash"
             android:dialogTitle="@string/pref_exchange_type_title"
             android:entries="@array/exchangeType"
             android:entryValues="@array/exchangeTypeValues"

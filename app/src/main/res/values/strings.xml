@@ -42,7 +42,7 @@
     <string name="itemCash">Cash</string>
 
     <string name="widgetSettings">WIDGET SETTINGS</string>
-    <string name="applyButtonText">Cash</string>
+    <string name="applyButtonText">SAVE SETTINGS</string>
 
 
 </resources>

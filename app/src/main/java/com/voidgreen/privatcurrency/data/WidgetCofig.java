@@ -48,10 +48,12 @@ public class WidgetCofig {
                     mSelectionClause,
                     mSelectionArgs,
                     null);
-            setId(cursor.getInt(Constants.COL_WIDGET_ID));
-            setUpdateInterval(cursor.getInt(Constants.COL_UPDATE_INTERVAL));
-            setType(cursor.getString(Constants.COL_TYPE));
-            setColor(cursor.getInt(Constants.COL_COLOR));
+            if(cursor != null && cursor.moveToFirst()) {
+                setId(cursor.getInt(Constants.COL_WIDGET_ID));
+                setUpdateInterval(cursor.getInt(Constants.COL_UPDATE_INTERVAL));
+                setType(cursor.getString(Constants.COL_TYPE));
+                setColor(cursor.getInt(Constants.COL_COLOR));
+            }
         }
     }
 
@@ -71,7 +73,7 @@ public class WidgetCofig {
                 mSelectionClause,
                 mSelectionArgs,
                 null);
-        if(cursor.getCount() > 0) {
+        if(cursor != null && cursor.moveToFirst()) {
             setId(cursor.getInt(Constants.COL_WIDGET_ID));
             setUpdateInterval(cursor.getInt(Constants.COL_UPDATE_INTERVAL));
             setType(cursor.getString(Constants.COL_TYPE));
@@ -80,8 +82,8 @@ public class WidgetCofig {
 
     }
 
-    public int getCursorCount() {
-        return cursor.getCount();
+    public boolean isCursorReady() {
+        return cursor.getCount() > 0 && cursor != null && cursor.moveToFirst();
     }
 
     private int id;
