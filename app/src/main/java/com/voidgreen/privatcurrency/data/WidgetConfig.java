@@ -3,6 +3,7 @@ package com.voidgreen.privatcurrency.data;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
+import android.util.Log;
 
 import com.voidgreen.privatcurrency.utilities.Constants;
 
@@ -83,6 +84,7 @@ public class WidgetConfig {
     }
 
     public boolean isCursorReady() {
+        Log.d(Constants.TAG, "WidgetConfig :isCursorReady = " + (cursor != null && cursor.moveToFirst()));
         return cursor != null && cursor.moveToFirst();
     }
 

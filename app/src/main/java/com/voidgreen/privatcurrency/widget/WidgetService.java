@@ -36,7 +36,7 @@ class ViewsFactory implements RemoteViewsService.RemoteViewsFactory {
         this.context = context;
         appWidgetId = intent.getIntExtra(AppWidgetManager.EXTRA_APPWIDGET_ID,
                 AppWidgetManager.INVALID_APPWIDGET_ID);
-        Log.d(Constants.TAG, "ViewsFactory ViewsFactory");
+        //Log.d(Constants.TAG, "ViewsFactory ViewsFactory");
     }
 
     public RemoteViews getViewAt(int position) {
@@ -54,9 +54,10 @@ class ViewsFactory implements RemoteViewsService.RemoteViewsFactory {
 
         //Setting activity call by onClick
         Intent intent = new Intent(context, SettingsActivity.class);
+        intent.putExtra(Constants.WIDGET_ID, appWidgetId);
         remoteView.setOnClickFillInIntent(R.id.itemTodo, intent);
 
-        Log.d(Constants.TAG, "ViewsFactory getViewAt");
+        //Log.d(Constants.TAG, "ViewsFactory getViewAt");
         return (remoteView);
     }
 
@@ -83,7 +84,7 @@ class ViewsFactory implements RemoteViewsService.RemoteViewsFactory {
         } finally {
             Binder.restoreCallingIdentity(token);
         }
-        Log.d(Constants.TAG, "ViewsFactory onDataSetChanged");
+        //Log.d(Constants.TAG, "ViewsFactory onDataSetChanged");
     }
 
     @Override
@@ -91,18 +92,18 @@ class ViewsFactory implements RemoteViewsService.RemoteViewsFactory {
         if (cursor != null) {
             cursor.close();
         }
-        Log.d(Constants.TAG, "ViewsFactory onDestroy");
+        //Log.d(Constants.TAG, "ViewsFactory onDestroy");
     }
 
     @Override
     public int getCount() {
 
         if (cursor != null) {
-            Log.d(Constants.TAG, "getCount cursor.getCount() = " + cursor.getCount());
+            //Log.d(Constants.TAG, "getCount cursor.getCount() = " + cursor.getCount());
             return cursor.getCount();
 
         } else {
-            Log.d(Constants.TAG, "getCount cursor = null");
+            //Log.d(Constants.TAG, "getCount cursor = null");
             return 0;
         }
     }

@@ -33,7 +33,7 @@ public class SettingsActivity extends PreferenceActivity implements SharedPrefer
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        addPreferencesFromResource(R.xml.preferences);
+
 
         context = getApplicationContext();
         views = new RemoteViews(context.getPackageName(),
@@ -42,10 +42,16 @@ public class SettingsActivity extends PreferenceActivity implements SharedPrefer
         Intent intent = getIntent();
         Bundle extras = intent.getExtras();
         if (extras != null) {
-            mAppWidgetId = extras.getInt(
-                    AppWidgetManager.EXTRA_APPWIDGET_ID,
-                    AppWidgetManager.INVALID_APPWIDGET_ID);
+            int id = intent.getIntExtra(Constants.WIDGET_ID, -1);
+            if(id == -1) {
+                mAppWidgetId = extras.getInt(
+                        AppWidgetManager.EXTRA_APPWIDGET_ID,
+                        AppWidgetManager.INVALID_APPWIDGET_ID);
+            } else {
+                mAppWidgetId = id;
+            }
         }
+        Log.d(Constants.TAG, "SettingsActivity:onCreate mAppWidgetId= " + mAppWidgetId);
 
         widgetConfig = new WidgetConfig(
                 mAppWidgetId,
@@ -53,6 +59,9 @@ public class SettingsActivity extends PreferenceActivity implements SharedPrefer
         );
 
         if(widgetConfig.isCursorReady()) {
+            Log.d(Constants.TAG, "SettingsActivity:onCreate exchangeType= " + widgetConfig.getType());
+            Log.d(Constants.TAG, "SettingsActivity:onCreate color= " + widgetConfig.getColor());
+            Log.d(Constants.TAG, "SettingsActivity:onCreate updateInterval= " + widgetConfig.getUpdateInterval());
             Utility.setExchangeType(widgetConfig.getType(), context);
             Utility.setTextColor(widgetConfig.getColor(), context);
             Utility.setUpdateTime(Integer.toString(widgetConfig.getUpdateInterval()), context);
@@ -60,7 +69,7 @@ public class SettingsActivity extends PreferenceActivity implements SharedPrefer
 
 
         //Utility.startAlarm(context);
-
+        addPreferencesFromResource(R.xml.preferences);
         initSummary(getPreferenceScreen());
 
     }
@@ -92,6 +101,8 @@ public class SettingsActivity extends PreferenceActivity implements SharedPrefer
                 Utility.getUpdateTime(context),
                 context
         );
+
+
     }
 
     private void initSummary(Preference p) {

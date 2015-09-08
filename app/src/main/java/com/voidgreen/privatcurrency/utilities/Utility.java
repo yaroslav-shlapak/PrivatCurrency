@@ -64,6 +64,7 @@ public class Utility {
                 context.getPackageName(), R.layout.widget_layout);
 
         Intent intent = new Intent(context, SettingsActivity.class);
+        intent.putExtra(Constants.WIDGET_ID, appWidgetId);
         PendingIntent pi = PendingIntent.getActivity(context, 0, intent, 0);
         remoteViews.setOnClickPendingIntent(R.id.widgetRelativeLayout, pi);
         remoteViews.setPendingIntentTemplate(R.id.listViewWidget, pi);
@@ -150,7 +151,7 @@ public class Utility {
         String defaultValue = "cash";
         Resources resources = context.getResources();
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context.getApplicationContext());
-        return sharedPreferences.getString(resources.getString(R.string.pref_update_period_key), defaultValue);
+        return sharedPreferences.getString(resources.getString(R.string.pref_exchange_type_key), defaultValue);
     }
 
     public static int getTextColor(Context context) {
@@ -172,7 +173,7 @@ public class Utility {
         Resources resources = context.getResources();
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context.getApplicationContext());
         SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putString(resources.getString(R.string.pref_update_period_key), type);
+        editor.putString(resources.getString(R.string.pref_exchange_type_key), type);
         editor.commit();
     }
 
