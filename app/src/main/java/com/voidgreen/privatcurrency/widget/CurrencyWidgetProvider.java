@@ -27,6 +27,7 @@ public class CurrencyWidgetProvider extends AppWidgetProvider {
         new DownloadCurrencyTask(context).execute(Constants.EXCHANGE_RATE_CARD);
 
         Log.d(Constants.TAG, "CurrencyWidgetProvider onUpdate");
+
         Utility.updateAllWidgets(context, appWidgetManager, appWidgetIds);
         super.onUpdate(context, appWidgetManager, appWidgetIds);
     }
@@ -69,6 +70,9 @@ public class CurrencyWidgetProvider extends AppWidgetProvider {
         if (Constants.ACTION_UPDATE.equals(intent.getAction())) {
             Utility.downloadData(context, Constants.EXCHANGE_RATE_CARD);
             onUpdate(context);
+/*        } else if(Constants.ACTION_CLICK.equals(intent.getAction())) {
+            Intent activityIntent = new Intent(context, SettingsActivity.class);
+            context.startActivity(activityIntent);*/
         } else super.onReceive(context, intent);
     }
 

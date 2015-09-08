@@ -103,7 +103,7 @@ public class DownloadCurrencyTask extends AsyncTask<String, Void, List> {
 
                         } else if (cardCount == result.size()) {
                             Log.d(Constants.TAG, "onPostExecute EXCHANGE_RATE_CARD : update");
-                            updateDatabase(jsonMessage, Constants.CURENCIES[i], CurrencyContract.CardEntry.COLUMN_CURRENCY, CurrencyContract.CardEntry.CONTENT_URI);
+                            updateDatabase(jsonMessage, Constants.CURRENCIES[i], CurrencyContract.CardEntry.COLUMN_CURRENCY, CurrencyContract.CardEntry.CONTENT_URI);
                         }
                         break;
                     case Constants.EXCHANGE_RATE_CASH:
@@ -120,7 +120,7 @@ public class DownloadCurrencyTask extends AsyncTask<String, Void, List> {
                             insertDataToDatabase(jsonMessage, CurrencyContract.CashEntry.CONTENT_URI);
                         } else if (cashCount == result.size()) {
                             Log.d(Constants.TAG, "onPostExecute EXCHANGE_RATE_CASH : update");
-                            updateDatabase(jsonMessage, Constants.CURENCIES[i], CurrencyContract.CashEntry.COLUMN_CURRENCY, CurrencyContract.CashEntry.CONTENT_URI);
+                            updateDatabase(jsonMessage, Constants.CURRENCIES[i], CurrencyContract.CashEntry.COLUMN_CURRENCY, CurrencyContract.CashEntry.CONTENT_URI);
                         }
                         break;
                 }

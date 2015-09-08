@@ -15,6 +15,7 @@ import android.widget.RemoteViewsService;
 
 import com.voidgreen.privatcurrency.R;
 import com.voidgreen.privatcurrency.data.CurrencyContract;
+import com.voidgreen.privatcurrency.settings.SettingsActivity;
 import com.voidgreen.privatcurrency.utilities.Constants;
 
 public class WidgetService extends RemoteViewsService {
@@ -50,6 +51,10 @@ class ViewsFactory implements RemoteViewsService.RemoteViewsFactory {
         remoteView.setTextViewText(R.id.textViewCurrency, currency);
         remoteView.setTextViewText(R.id.textViewBuyPrice, buy);
         remoteView.setTextViewText(R.id.textViewSalePrice, sale);
+
+        //Setting activity call by onClick
+        Intent intent = new Intent(context, SettingsActivity.class);
+        remoteView.setOnClickFillInIntent(R.id.itemTodo, intent);
 
         Log.d(Constants.TAG, "ViewsFactory getViewAt");
         return (remoteView);
