@@ -8,11 +8,6 @@
         android:layout_weight="1"
         android:textColor="@color/white"/>
     <TextView android:text="@string/hello_world" android:layout_width="match_parent"
-        android:id="@+id/textViewBaseCurrency"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:textColor="@color/white"/>
-    <TextView android:text="@string/hello_world" android:layout_width="match_parent"
         android:id="@+id/textViewBuyPrice"
         android:layout_height="wrap_content"
         android:layout_weight="1"

@@ -2,11 +2,13 @@ package com.voidgreen.privatcurrency.data;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.res.Resources;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.util.Log;
 
+import com.voidgreen.privatcurrency.R;
 import com.voidgreen.privatcurrency.json.JsonMessage;
 import com.voidgreen.privatcurrency.json.JsonParser;
 import com.voidgreen.privatcurrency.utilities.Constants;
@@ -76,11 +78,14 @@ public class DownloadCurrencyTask extends AsyncTask<String, Void, List> {
                         null);
                 cardCount = cursor.getCount();
             }
-
+            Resources resources = context.getResources();
             for (int i = 0; i < (result.size() - 1); i++) {
                 JsonMessage jsonMessage = (JsonMessage) result.get(i);
-                JsonMessage firstRow = new JsonMessage("Cur", "Base", "Buy", "Sale");
-
+                JsonMessage firstRow = new JsonMessage(
+                        resources.getString(R.string.currencyHeader),
+                        resources.getString(R.string.currencyBaseHeader),
+                        resources.getString(R.string.bidHeader),
+                        resources.getString(R.string.askHeader));
 
                 switch ((String) result.get(result.size() - 1)) {
                     case Constants.EXCHANGE_RATE_CARD:

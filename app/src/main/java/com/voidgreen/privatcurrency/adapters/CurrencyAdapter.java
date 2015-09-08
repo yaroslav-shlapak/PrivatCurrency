@@ -32,17 +32,14 @@ public class CurrencyAdapter extends CursorAdapter {
     @Override
     public void bindView(View view, Context context, Cursor cursor) {
         TextView textViewCurrency = (TextView) view.findViewById(R.id.textViewCurrency);
-        TextView textViewBaseCurrency = (TextView) view.findViewById(R.id.textViewBaseCurrency);
         TextView textViewBuyPrice = (TextView) view.findViewById(R.id.textViewBuyPrice);
         TextView textViewSalePrice = (TextView) view.findViewById(R.id.textViewSalePrice);
 
         String currency = cursor.getString(Constants.COL_CURRENCY);
-        String baseCurrency = cursor.getString(Constants.COL_BASE_CURRENCY);
         String buy = cursor.getString(Constants.COL_BUY);
         String sale = cursor.getString(Constants.COL_SALE);
 
         textViewCurrency.setText(currency);
-        textViewBaseCurrency.setText(baseCurrency);
         textViewBuyPrice.setText(buy);
         textViewSalePrice.setText(sale);
     }

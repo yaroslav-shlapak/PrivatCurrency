@@ -44,12 +44,10 @@ class ViewsFactory implements RemoteViewsService.RemoteViewsFactory {
 
         cursor.moveToPosition(position);
         String currency = cursor.getString(Constants.COL_CURRENCY);
-        String baseCurrency = cursor.getString(Constants.COL_BASE_CURRENCY);
         String buy = cursor.getString(Constants.COL_BUY);
         String sale = cursor.getString(Constants.COL_SALE);
 
         remoteView.setTextViewText(R.id.textViewCurrency, currency);
-        remoteView.setTextViewText(R.id.textViewBaseCurrency, baseCurrency);
         remoteView.setTextViewText(R.id.textViewBuyPrice, buy);
         remoteView.setTextViewText(R.id.textViewSalePrice, sale);
 

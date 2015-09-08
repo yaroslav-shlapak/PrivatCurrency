@@ -44,5 +44,10 @@
     <string name="widgetSettings">WIDGET SETTINGS</string>
     <string name="applyButtonText">SAVE SETTINGS</string>
 
+    <string name="currencyHeader">Currency</string>
+    <string name="currencyBaseHeader">Base</string>
+    <string name="bidHeader">BID</string>
+    <string name="askHeader">ASK</string>
+
 
 </resources>
