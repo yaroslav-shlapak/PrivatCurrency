@@ -107,7 +107,7 @@ public class Utility {
         am.setInexactRepeating(AlarmManager.RTC, System.currentTimeMillis() + 10000, 60 * 1000, pi);
     }
 
-    private static PendingIntent getAlarmIntent(Context context) {
+    public static PendingIntent getAlarmIntent(Context context) {
         Intent intent = new Intent(context, CurrencyWidgetProvider.class);
         intent.setAction(Constants.ACTION_UPDATE);
         //intent.setAction(Constants.ACTION_CLICK);

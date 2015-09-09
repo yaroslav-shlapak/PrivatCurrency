@@ -1,5 +1,6 @@
 package com.voidgreen.privatcurrency.settings;
 
+import android.app.PendingIntent;
 import android.appwidget.AppWidgetManager;
 import android.content.Context;
 import android.content.Intent;
@@ -82,10 +83,17 @@ public class SettingsActivity extends PreferenceActivity implements SharedPrefer
     private void saveWidgetModification() {
         //Utility.saveBatteryInfo(context, Utility.getSavedBatteryInfo(context));
         updateWidgetInfo();
-        AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(context);
+        PendingIntent pendingIntent = Utility.getAlarmIntent(context);
+        try {
+            pendingIntent.send();
+        } catch (PendingIntent.CanceledException e) {
+            e.printStackTrace();
+        }
+
+/*        AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(context);
         int[] ids = {mAppWidgetId};
         Utility.startDownload(context);
-        Utility.updateAllWidgets(context, appWidgetManager, ids);
+        Utility.updateAllWidgets(context, appWidgetManager, ids);*/
 
         Intent resultValue = new Intent();
         resultValue.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, mAppWidgetId);

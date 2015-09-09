@@ -38,6 +38,7 @@ class ViewsFactory implements RemoteViewsService.RemoteViewsFactory {
         this.context = context;
         appWidgetId = intent.getIntExtra(AppWidgetManager.EXTRA_APPWIDGET_ID,
                 AppWidgetManager.INVALID_APPWIDGET_ID);
+
         widgetConfig = new WidgetConfig(appWidgetId, context);
         //Log.d(Constants.TAG, "ViewsFactory ViewsFactory");
     }
@@ -45,6 +46,8 @@ class ViewsFactory implements RemoteViewsService.RemoteViewsFactory {
     public RemoteViews getViewAt(int position) {
         final RemoteViews remoteView = new RemoteViews(
                 context.getPackageName(), R.layout.item_todo);
+        getCursor();
+        widgetConfig = new WidgetConfig(appWidgetId, context);
 
         cursor.moveToPosition(position);
         String currency = cursor.getString(Constants.COL_CURRENCY);
@@ -62,10 +65,11 @@ class ViewsFactory implements RemoteViewsService.RemoteViewsFactory {
         //Setting activity call by onClick
         Intent intent = new Intent(context, SettingsActivity.class);
         intent.putExtra(Constants.WIDGET_ID, appWidgetId);
-        //Log.d(Constants.TAG, "ViewsFactory:getViewAt appWidgetId = " + appWidgetId);
+        Log.d(Constants.TAG, "ViewsFactory:getViewAt appWidgetId = " + appWidgetId);
         remoteView.setOnClickFillInIntent(R.id.itemTodo, intent);
 
         //Log.d(Constants.TAG, "ViewsFactory getViewAt");
+        closeCursors();
         return (remoteView);
     }
 
