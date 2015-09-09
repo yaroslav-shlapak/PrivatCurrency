@@ -66,6 +66,7 @@ public class SettingsActivity extends PreferenceActivity implements SharedPrefer
             Utility.setTextColor(widgetConfig.getColor(), context);
             Utility.setUpdateTime(Integer.toString(widgetConfig.getUpdateInterval()), context);
         }
+        widgetConfig.closeCursor();
 
 
         //Utility.startAlarm(context);
@@ -80,8 +81,10 @@ public class SettingsActivity extends PreferenceActivity implements SharedPrefer
 
     private void saveWidgetModification() {
         //Utility.saveBatteryInfo(context, Utility.getSavedBatteryInfo(context));
+        updateWidgetInfo();
         AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(context);
         int[] ids = {mAppWidgetId};
+        Utility.startDownload(context);
         Utility.updateAllWidgets(context, appWidgetManager, ids);
 
         Intent resultValue = new Intent();
@@ -94,6 +97,11 @@ public class SettingsActivity extends PreferenceActivity implements SharedPrefer
     @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
         updatePrefSummary(findPreference(key));
+        updateWidgetInfo();
+
+
+    }
+    private void updateWidgetInfo() {
         widgetConfig = new WidgetConfig(
                 mAppWidgetId,
                 Utility.getTextColor(context),
@@ -101,8 +109,10 @@ public class SettingsActivity extends PreferenceActivity implements SharedPrefer
                 Utility.getUpdateTime(context),
                 context
         );
-
-
+        Log.d(Constants.TAG, "SettingsActivity:onSharedPreferenceChanged exchangeType= " + widgetConfig.getType());
+        Log.d(Constants.TAG, "SettingsActivity:onSharedPreferenceChanged color= " + widgetConfig.getColor());
+        Log.d(Constants.TAG, "SettingsActivity:onSharedPreferenceChanged updateInterval= " + widgetConfig.getUpdateInterval());
+        widgetConfig.closeCursor();
     }
 
     private void initSummary(Preference p) {

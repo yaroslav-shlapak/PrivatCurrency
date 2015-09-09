@@ -58,6 +58,12 @@ public class WidgetConfig {
         }
     }
 
+    public void closeCursor() {
+        if (cursor != null) {
+            cursor.close();
+        }
+    }
+
     public WidgetConfig(int id, Context context) {
 
         // Constructs a selection clause that matches the word that the user entered.
@@ -80,7 +86,6 @@ public class WidgetConfig {
             setType(cursor.getString(Constants.COL_TYPE));
             setColor(cursor.getInt(Constants.COL_COLOR));
         }
-
     }
 
     public boolean isCursorReady() {

@@ -33,27 +33,32 @@ public class Utility {
         AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(context);
         ComponentName thisWidget = new ComponentName(context, CurrencyWidgetProvider.class);
         int[] appWidgetIds = appWidgetManager.getAppWidgetIds(thisWidget);
+        Log.d(Constants.TAG, "Utility updateAllWidgetsFromOutside");
         Utility.updateAllWidgets(context, appWidgetManager, appWidgetIds);
     }
 
-    public static void updateAllWidgets(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
+    public static void startDownload(Context context) {
         DownloadCurrencyTask.mUriCard = CurrencyContract.CardEntry.CONTENT_URI;
         DownloadCurrencyTask.mUriCash = CurrencyContract.CashEntry.CONTENT_URI;
+
+        new DownloadCurrencyTask(context).execute(Constants.EXCHANGE_RATE_CARD);
+        new DownloadCurrencyTask(context).execute(Constants.EXCHANGE_RATE_CASH);
+    }
+
+    public static void updateAllWidgets(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
+
 
 
         for (int widgetId : appWidgetIds) {
 
             Log.d(Constants.TAG, "Utility updateAllWidgets : widgetId = " + widgetId);
-
-
-
             RemoteViews remoteViews = updateWidgetListView(context, widgetId);
-            appWidgetManager.updateAppWidget(widgetId,
-                    remoteViews);
+            appWidgetManager.updateAppWidget(widgetId, remoteViews);
             appWidgetManager.notifyAppWidgetViewDataChanged(widgetId, R.id.listViewWidget);
 
-        }
 
+        }
+        appWidgetManager.notifyAppWidgetViewDataChanged(appWidgetIds, R.id.listViewWidget);
     }
 
     private static RemoteViews updateWidgetListView(Context context, int appWidgetId) {
@@ -65,7 +70,7 @@ public class Utility {
 
         Intent intent = new Intent(context, SettingsActivity.class);
         intent.putExtra(Constants.WIDGET_ID, appWidgetId);
-        PendingIntent pi = PendingIntent.getActivity(context, 0, intent, 0);
+        PendingIntent pi = PendingIntent.getActivity(context, appWidgetId, intent, 0);
         remoteViews.setOnClickPendingIntent(R.id.widgetRelativeLayout, pi);
         remoteViews.setPendingIntentTemplate(R.id.listViewWidget, pi);
 
@@ -83,9 +88,6 @@ public class Utility {
         remoteViews.setRemoteAdapter(R.id.listViewWidget, svcIntent);
         //setting an empty view in case of no data
         remoteViews.setEmptyView(R.id.listViewWidget, R.id.empty_view);
-
-
-        Log.d(Constants.TAG, "Utility updateWidgetListView");
         return remoteViews;
     }
 
@@ -94,29 +96,21 @@ public class Utility {
         //Toast.makeText(context, string, Toast.LENGTH_LONG).show();
     }
 
-
-
-
     public static void scheduleUpdate(Context context) {
-
-
-
         AlarmManager am = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
 
         PendingIntent pi = getAlarmIntent(context);
         am.cancel(pi);
 
-
-
         int updatePeriod = getUpdateTime(context);
         Log.d(Constants.TAG, "Utility scheduleUpdate updatePeriod = " + updatePeriod);
-        am.setInexactRepeating(AlarmManager.RTC, System.currentTimeMillis() + 3000, updatePeriod * 1000, pi);
+        am.setInexactRepeating(AlarmManager.RTC, System.currentTimeMillis() + 10000, 60 * 1000, pi);
     }
 
     private static PendingIntent getAlarmIntent(Context context) {
         Intent intent = new Intent(context, CurrencyWidgetProvider.class);
         intent.setAction(Constants.ACTION_UPDATE);
-        intent.setAction(Constants.ACTION_CLICK);
+        //intent.setAction(Constants.ACTION_CLICK);
         PendingIntent pi = PendingIntent.getBroadcast(context, 0, intent, 0);
         return pi;
     }
@@ -134,7 +128,7 @@ public class Utility {
         if (networkInfo != null && networkInfo.isConnected()) {
             new DownloadCurrencyTask(context).execute(type);
 
-            Log.d(Constants.TAG, "ViewsFactory onCreate");
+            Log.d(Constants.TAG, "Utility downloadData");
         } else {
             Toast.makeText(context, context.getResources().getString(R.string.connectionProblem), Toast.LENGTH_LONG);
         }
@@ -183,6 +177,29 @@ public class Utility {
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putInt(resources.getString(R.string.pref_text_color_key), color);
         editor.commit();
+    }
+
+    public static Uri getUriByType(String exchangeType) {
+        //Log.d(Constants.TAG, "Utility getUriByType exchangeType = " + exchangeType);
+        switch (exchangeType) {
+            case "cash":
+                return CurrencyContract.CashEntry.CONTENT_URI;
+            case "card":
+                return CurrencyContract.CardEntry.CONTENT_URI;
+            default:
+                return CurrencyContract.CashEntry.CONTENT_URI;
+        }
+    }
+
+    public static String[] getDetailColumnsByType(String exchangeType) {
+        switch (exchangeType) {
+            case "cash":
+                return Constants.DETAIL_COLUMNS_CASH;
+            case "card":
+                return Constants.DETAIL_COLUMNS_CARD;
+            default:
+                return Constants.DETAIL_COLUMNS_CASH;
+        }
     }
 
 }

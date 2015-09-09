@@ -14,9 +14,10 @@ import android.widget.RemoteViews;
 import android.widget.RemoteViewsService;
 
 import com.voidgreen.privatcurrency.R;
-import com.voidgreen.privatcurrency.data.CurrencyContract;
+import com.voidgreen.privatcurrency.data.WidgetConfig;
 import com.voidgreen.privatcurrency.settings.SettingsActivity;
 import com.voidgreen.privatcurrency.utilities.Constants;
+import com.voidgreen.privatcurrency.utilities.Utility;
 
 public class WidgetService extends RemoteViewsService {
     @Override
@@ -30,12 +31,14 @@ class ViewsFactory implements RemoteViewsService.RemoteViewsFactory {
     private Cursor cursor;
     private Context context = null;
     private int appWidgetId;
+    WidgetConfig widgetConfig;
 
 
     public ViewsFactory(Context context, Intent intent) {
         this.context = context;
         appWidgetId = intent.getIntExtra(AppWidgetManager.EXTRA_APPWIDGET_ID,
                 AppWidgetManager.INVALID_APPWIDGET_ID);
+        widgetConfig = new WidgetConfig(appWidgetId, context);
         //Log.d(Constants.TAG, "ViewsFactory ViewsFactory");
     }
 
@@ -52,9 +55,14 @@ class ViewsFactory implements RemoteViewsService.RemoteViewsFactory {
         remoteView.setTextViewText(R.id.textViewBuyPrice, buy);
         remoteView.setTextViewText(R.id.textViewSalePrice, sale);
 
+        remoteView.setTextColor(R.id.textViewCurrency, widgetConfig.getColor());
+        remoteView.setTextColor(R.id.textViewBuyPrice, widgetConfig.getColor());
+        remoteView.setTextColor(R.id.textViewSalePrice, widgetConfig.getColor());
+        //widgetConfig.closeCursor();
         //Setting activity call by onClick
         Intent intent = new Intent(context, SettingsActivity.class);
         intent.putExtra(Constants.WIDGET_ID, appWidgetId);
+        //Log.d(Constants.TAG, "ViewsFactory:getViewAt appWidgetId = " + appWidgetId);
         remoteView.setOnClickFillInIntent(R.id.itemTodo, intent);
 
         //Log.d(Constants.TAG, "ViewsFactory getViewAt");
@@ -68,9 +76,10 @@ class ViewsFactory implements RemoteViewsService.RemoteViewsFactory {
     }
 
     private void getCursor() {
+
         cursor = context.getContentResolver().query(
-                CurrencyContract.CardEntry.CONTENT_URI,
-                Constants.DETAIL_COLUMNS_CARD,
+                Utility.getUriByType(widgetConfig.getType()),
+                Utility.getDetailColumnsByType(widgetConfig.getType()),
                 null,
                 null,
                 null);
@@ -83,17 +92,25 @@ class ViewsFactory implements RemoteViewsService.RemoteViewsFactory {
             getCursor();
         } finally {
             Binder.restoreCallingIdentity(token);
+
         }
         //Log.d(Constants.TAG, "ViewsFactory onDataSetChanged");
     }
 
     @Override
     public void onDestroy() {
-        if (cursor != null) {
-            cursor.close();
-        }
+        closeCursors();
         //Log.d(Constants.TAG, "ViewsFactory onDestroy");
     }
+    public void closeCursors() {
+        Log.d(Constants.TAG, "ViewsFactory closeCursors");
+        widgetConfig.closeCursor();
+        if (cursor != null) {
+            Log.d(Constants.TAG, "ViewsFactory closeCursors cursor.close()");
+            cursor.close();
+        }
+    }
+
 
     @Override
     public int getCount() {

@@ -6,7 +6,6 @@ import android.content.res.Resources;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.AsyncTask;
-import android.util.Log;
 
 import com.voidgreen.privatcurrency.R;
 import com.voidgreen.privatcurrency.json.JsonMessage;
@@ -90,36 +89,36 @@ public class DownloadCurrencyTask extends AsyncTask<String, Void, List> {
                 switch ((String) result.get(result.size() - 1)) {
                     case Constants.EXCHANGE_RATE_CARD:
 
-                        Log.d(Constants.TAG, "onPostExecute EXCHANGE_RATE_CARD : result.size = " + result.size());
-                        Log.d(Constants.TAG, "onPostExecute EXCHANGE_RATE_CARD : cardCount = " + cardCount);
+                        //Log.d(Constants.TAG, "onPostExecute EXCHANGE_RATE_CARD : result.size = " + result.size());
+                        //Log.d(Constants.TAG, "onPostExecute EXCHANGE_RATE_CARD : cardCount = " + cardCount);
                         if (cardCount < result.size()) {
                             if (cardCount == 0) {
                                 insertDataToDatabase(firstRow, CurrencyContract.CardEntry.CONTENT_URI);
                                 cardCount++;
                             }
-                            Log.d(Constants.TAG, "onPostExecute EXCHANGE_RATE_CARD : insert");
+                            //Log.d(Constants.TAG, "onPostExecute EXCHANGE_RATE_CARD : insert");
                             insertDataToDatabase(jsonMessage, CurrencyContract.CardEntry.CONTENT_URI);
 
 
                         } else if (cardCount == result.size()) {
-                            Log.d(Constants.TAG, "onPostExecute EXCHANGE_RATE_CARD : update");
+                            //Log.d(Constants.TAG, "onPostExecute EXCHANGE_RATE_CARD : update");
                             updateDatabase(jsonMessage, Constants.CURRENCIES[i], CurrencyContract.CardEntry.COLUMN_CURRENCY, CurrencyContract.CardEntry.CONTENT_URI);
                         }
                         break;
                     case Constants.EXCHANGE_RATE_CASH:
 
-                        Log.d(Constants.TAG, "onPostExecute EXCHANGE_RATE_CASH : result.size = " + result.size());
-                        Log.d(Constants.TAG, "onPostExecute EXCHANGE_RATE_CASH : cashCount = " + cashCount);
+                        //Log.d(Constants.TAG, "onPostExecute EXCHANGE_RATE_CASH : result.size = " + result.size());
+                        //Log.d(Constants.TAG, "onPostExecute EXCHANGE_RATE_CASH : cashCount = " + cashCount);
 
                         if (cashCount < result.size()) {
                             if (cashCount == 0) {
                                 insertDataToDatabase(firstRow, CurrencyContract.CashEntry.CONTENT_URI);
                                 cashCount++;
                             }
-                            Log.d(Constants.TAG, "onPostExecute EXCHANGE_RATE_CASH : insert");
+                            //Log.d(Constants.TAG, "onPostExecute EXCHANGE_RATE_CASH : insert");
                             insertDataToDatabase(jsonMessage, CurrencyContract.CashEntry.CONTENT_URI);
                         } else if (cashCount == result.size()) {
-                            Log.d(Constants.TAG, "onPostExecute EXCHANGE_RATE_CASH : update");
+                            //Log.d(Constants.TAG, "onPostExecute EXCHANGE_RATE_CASH : update");
                             updateDatabase(jsonMessage, Constants.CURRENCIES[i], CurrencyContract.CashEntry.COLUMN_CURRENCY, CurrencyContract.CashEntry.CONTENT_URI);
                         }
                         break;
@@ -198,9 +197,9 @@ public class DownloadCurrencyTask extends AsyncTask<String, Void, List> {
                 mSelectionClause,
                 mSelectionArgs
         );
-        Log.d(Constants.TAG, "updateDatabase : id = " + id);
-        Log.d(Constants.TAG, "updateDatabase : mSearchString = " + mSearchString);
-        Log.d(Constants.TAG, "updateDatabase : mSelectionClause = " + mSelectionClause);
+        //Log.d(Constants.TAG, "updateDatabase : id = " + id);
+        //Log.d(Constants.TAG, "updateDatabase : mSearchString = " + mSearchString);
+        //Log.d(Constants.TAG, "updateDatabase : mSelectionClause = " + mSelectionClause);
 
     }
 

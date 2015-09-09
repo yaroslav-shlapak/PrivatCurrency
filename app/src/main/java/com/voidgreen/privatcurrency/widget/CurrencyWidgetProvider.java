@@ -9,7 +9,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
 
-import com.voidgreen.privatcurrency.data.DownloadCurrencyTask;
 import com.voidgreen.privatcurrency.utilities.Constants;
 import com.voidgreen.privatcurrency.utilities.Utility;
 
@@ -24,7 +23,7 @@ public class CurrencyWidgetProvider extends AppWidgetProvider {
 
     @Override
     public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
-        new DownloadCurrencyTask(context).execute(Constants.EXCHANGE_RATE_CARD);
+        Utility.startDownload(context);
 
         Log.d(Constants.TAG, "CurrencyWidgetProvider onUpdate");
 
