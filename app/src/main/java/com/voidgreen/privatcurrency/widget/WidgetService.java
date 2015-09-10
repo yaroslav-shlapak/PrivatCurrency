@@ -27,7 +27,7 @@ public class WidgetService extends RemoteViewsService {
     }
 }
 
-class ViewsFactory implements RemoteViewsService.RemoteViewsFactory {
+class ViewsFactory implements RemoteViewsService.RemoteViewsFactory{
     private Cursor cursor;
     private Context context = null;
     private int appWidgetId;
@@ -39,29 +39,26 @@ class ViewsFactory implements RemoteViewsService.RemoteViewsFactory {
         appWidgetId = intent.getIntExtra(AppWidgetManager.EXTRA_APPWIDGET_ID,
                 AppWidgetManager.INVALID_APPWIDGET_ID);
 
-        widgetConfig = new WidgetConfig(appWidgetId, context);
         //Log.d(Constants.TAG, "ViewsFactory ViewsFactory");
     }
 
     public RemoteViews getViewAt(int position) {
         final RemoteViews remoteView = new RemoteViews(
                 context.getPackageName(), R.layout.item_todo);
-        getCursor();
-        widgetConfig = new WidgetConfig(appWidgetId, context);
 
-        cursor.moveToPosition(position);
-        String currency = cursor.getString(Constants.COL_CURRENCY);
-        String buy = cursor.getString(Constants.COL_BUY);
-        String sale = cursor.getString(Constants.COL_SALE);
+        if(cursor.moveToPosition(position)) {
+            String currency = cursor.getString(Constants.COL_CURRENCY);
+            String buy = cursor.getString(Constants.COL_BUY);
+            String sale = cursor.getString(Constants.COL_SALE);
 
-        remoteView.setTextViewText(R.id.textViewCurrency, currency);
-        remoteView.setTextViewText(R.id.textViewBuyPrice, buy);
-        remoteView.setTextViewText(R.id.textViewSalePrice, sale);
+            remoteView.setTextViewText(R.id.textViewCurrency, currency);
+            remoteView.setTextViewText(R.id.textViewBuyPrice, buy);
+            remoteView.setTextViewText(R.id.textViewSalePrice, sale);
 
-        remoteView.setTextColor(R.id.textViewCurrency, widgetConfig.getColor());
-        remoteView.setTextColor(R.id.textViewBuyPrice, widgetConfig.getColor());
-        remoteView.setTextColor(R.id.textViewSalePrice, widgetConfig.getColor());
-        //widgetConfig.closeCursor();
+            remoteView.setTextColor(R.id.textViewCurrency, widgetConfig.getColor());
+            remoteView.setTextColor(R.id.textViewBuyPrice, widgetConfig.getColor());
+            remoteView.setTextColor(R.id.textViewSalePrice, widgetConfig.getColor());
+        }
         //Setting activity call by onClick
         Intent intent = new Intent(context, SettingsActivity.class);
         intent.putExtra(Constants.WIDGET_ID, appWidgetId);
@@ -69,18 +66,16 @@ class ViewsFactory implements RemoteViewsService.RemoteViewsFactory {
         remoteView.setOnClickFillInIntent(R.id.itemTodo, intent);
 
         //Log.d(Constants.TAG, "ViewsFactory getViewAt");
-        closeCursors();
-        return (remoteView);
+        return remoteView;
     }
 
     @Override
     public void onCreate() {
 
-        getCursor();
+
     }
 
     private void getCursor() {
-
         cursor = context.getContentResolver().query(
                 Utility.getUriByType(widgetConfig.getType()),
                 Utility.getDetailColumnsByType(widgetConfig.getType()),
@@ -91,12 +86,20 @@ class ViewsFactory implements RemoteViewsService.RemoteViewsFactory {
 
     @Override
     public void onDataSetChanged() {
+        // Refresh the cursor
+        if (cursor != null) {
+            cursor.close();
+        }
+        if (widgetConfig != null) {
+            widgetConfig.closeCursor();
+        }
+        widgetConfig = new WidgetConfig(appWidgetId, context);
+
         final long token = Binder.clearCallingIdentity();
         try {
             getCursor();
         } finally {
             Binder.restoreCallingIdentity(token);
-
         }
         //Log.d(Constants.TAG, "ViewsFactory onDataSetChanged");
     }

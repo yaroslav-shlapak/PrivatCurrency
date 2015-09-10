@@ -3,6 +3,7 @@ package com.voidgreen.privatcurrency.data;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
+import android.os.Binder;
 import android.util.Log;
 
 import com.voidgreen.privatcurrency.utilities.Constants;
@@ -74,12 +75,13 @@ public class WidgetConfig {
 
         mSelectionArgs[0] = "" + id;
 
-        cursor = context.getContentResolver().query(
-                CurrencyContract.WidgetEntry.CONTENT_URI,
-                Constants.DETAIL_COLUMNS_WIDGET,
-                mSelectionClause,
-                mSelectionArgs,
-                null);
+        final long token = Binder.clearCallingIdentity();
+        try {
+            getCursor(context, mSelectionArgs, mSelectionClause);
+        } finally {
+            Binder.restoreCallingIdentity(token);
+        }
+
         if(isCursorReady()) {
             setId(cursor.getInt(Constants.COL_WIDGET_ID));
             setUpdateInterval(cursor.getInt(Constants.COL_UPDATE_INTERVAL));
@@ -92,6 +94,16 @@ public class WidgetConfig {
         Log.d(Constants.TAG, "WidgetConfig :isCursorReady = " + (cursor != null && cursor.moveToFirst()));
         return cursor != null && cursor.moveToFirst();
     }
+
+    public void getCursor(Context context, String[] mSelectionArgs, String mSelectionClause) {
+        cursor = context.getContentResolver().query(
+                CurrencyContract.WidgetEntry.CONTENT_URI,
+                Constants.DETAIL_COLUMNS_WIDGET,
+                mSelectionClause,
+                mSelectionArgs,
+                null);
+    }
+
 
     private int id;
     private int color;
