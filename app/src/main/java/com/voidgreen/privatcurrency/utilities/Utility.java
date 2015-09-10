@@ -104,7 +104,7 @@ public class Utility {
 
         int updatePeriod = getUpdateTime(context);
         Log.d(Constants.TAG, "Utility scheduleUpdate updatePeriod = " + updatePeriod);
-        am.setInexactRepeating(AlarmManager.RTC, System.currentTimeMillis() + 10000, 60 * 1000, pi);
+        am.setInexactRepeating(AlarmManager.RTC, System.currentTimeMillis() + 10000, updatePeriod * 1000, pi);
     }
 
     public static PendingIntent getAlarmIntent(Context context) {
@@ -199,6 +199,20 @@ public class Utility {
                 return Constants.DETAIL_COLUMNS_CARD;
             default:
                 return Constants.DETAIL_COLUMNS_CASH;
+        }
+    }
+
+    public static String getCurrencySymbol(String name) {
+        switch (name) {
+            case "RUR":
+                return "₽";
+            case "EUR":
+                return "€";
+            case "USD":
+                return "$";
+            default:
+                return "";
+
         }
     }
 

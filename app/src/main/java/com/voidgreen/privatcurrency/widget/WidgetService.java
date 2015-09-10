@@ -47,7 +47,7 @@ class ViewsFactory implements RemoteViewsService.RemoteViewsFactory{
                 context.getPackageName(), R.layout.item_todo);
 
         if(cursor.moveToPosition(position)) {
-            String currency = cursor.getString(Constants.COL_CURRENCY);
+            String currency = Utility.getCurrencySymbol(cursor.getString(Constants.COL_CURRENCY));
             String buy = cursor.getString(Constants.COL_BUY);
             String sale = cursor.getString(Constants.COL_SALE);
 

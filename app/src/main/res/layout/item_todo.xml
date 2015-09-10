@@ -3,23 +3,31 @@
     android:orientation="horizontal" android:layout_width="fill_parent"
     android:layout_height="match_parent"
     android:id="@+id/itemTodo">
-    <TextView android:text="@string/hello_world" android:layout_width="match_parent"
+    <TextView android:layout_width="match_parent"
         android:id="@+id/textViewCurrency"
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:textColor="@color/white"
-        android:textAlignment="center"/>
-    <TextView android:text="@string/hello_world" android:layout_width="match_parent"
+        android:gravity="center"
+        android:fontFamily="roboto"
+        android:textSize="@dimen/currencySize"/>
+    <TextView  android:layout_width="match_parent"
         android:id="@+id/textViewBuyPrice"
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:textColor="@color/white"
-        android:textAlignment="center"/>
-    <TextView android:text="@string/hello_world" android:layout_width="match_parent"
+        android:fontFamily="sans-serif"
+        android:textStyle="bold"
+        android:gravity="center"
+        android:textSize="@dimen/dataSize"/>
+    <TextView android:layout_width="match_parent"
         android:id="@+id/textViewSalePrice"
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:textColor="@color/white"
-        android:textAlignment="center"/>
+        android:gravity="center"
+        android:fontFamily="sans-serif"
+        android:textStyle="bold"
+        android:textSize="@dimen/dataSize"/>
 
 </LinearLayout>

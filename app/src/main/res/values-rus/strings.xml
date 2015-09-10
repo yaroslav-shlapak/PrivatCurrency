@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">ПриватКурс</string>
+
+    <string name="action_settings">Настройки</string>
+
+    <string name="pref_update_period_key">update period</string>
+    <string name="pref_update_period_title">Период обновления віджета</string>
+
+    <string name="pref_text_color_key">text color</string>
+    <string name="pref_text_color_title">Цвет текста</string>
+
+    <string name="pref_apply_button_key">apply button</string>
+    <string name="pref_apply_button_title">Применить настройки</string>
+
+    <string name="pref_exchange_type_key">exchangeType</string>
+    <string name="pref_exchange_type_title">Тип курса валют</string>
+
+    <!-- Color picker-->
+    <string name="dialog_color_picker">Выбор цвета</string>
+    <string name="press_color_to_apply">Выберите цвет</string>
+
+    <string name="emtyViewText">Загрузка...</string>
+    <string name="connectionProblem">Проблема загрузки</string>
+
+    <string name="item10m">10 минут</string>
+    <string name="item1h">1 час</string>
+    <string name="item3h">3 часа</string>
+    <string name="item6h">6 часов</string>
+    <string name="item12h">12 часов</string>
+    <string name="item24h">24 часа</string>
+
+    <string name="itemCard">Карточный курс</string>
+    <string name="itemCash">Наличный курс</string>
+
+    <string name="widgetSettings">НАСТОЙКИ ВИДЖЕТА</string>
+    <string name="applyButtonText">СОХРАНИТЬ НАСТРОЙКИ</string>
+
+    <string name="currencyHeader"> </string>
+    <string name="currencyBaseHeader">Base</string>
+    <string name="bidHeader">ПОКУПКА</string>
+    <string name="askHeader">ПРОДАЖА</string>
+</resources>
