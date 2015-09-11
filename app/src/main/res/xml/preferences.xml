@@ -11,7 +11,7 @@
             android:defaultValue="720"
             android:dialogTitle="@string/pref_update_period_title"
             android:entries="@array/updtateTime"
-            android:entryValues="@array/updtateTimeValues"
+            android:entryValues="@array/updateTimeValues"
             android:key="@string/pref_update_period_key"
             android:summary="@string/item12h"
             android:title="@string/pref_update_period_title" />

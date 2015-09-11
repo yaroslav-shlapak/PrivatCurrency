@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">PrivatCurrency</string>
 
@@ -19,8 +20,8 @@
     <string name="dialog_color_picker">Color Picker</string>
     <string name="press_color_to_apply">Press on Color to apply</string>
 
-    <string name="emtyViewText">Loading...</string>
-    <string name="connectionProblem">Connetion problem</string>
+    <string name="emptyViewText">Loading...</string>
+    <string name="connectionProblem">Connection problem</string>
 
     <string name="item10m">10 minutes</string>
     <string name="item1h">1 hour</string>

@@ -12,6 +12,7 @@ import android.graphics.Color;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
+import android.os.Build;
 import android.preference.PreferenceManager;
 import android.util.Log;
 import android.widget.RemoteViews;
@@ -203,17 +204,21 @@ public class Utility {
     }
 
     public static String getCurrencySymbol(String name) {
-        switch (name) {
-            case "RUR":
-                return "₽";
-            case "EUR":
-                return "€";
-            case "USD":
-                return "$";
-            default:
-                return "";
+        if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            switch (name) {
+                case "RUR":
+                    return "\u20BD";
+                case "EUR":
+                    return "€";
+                case "USD":
+                    return "$";
+                default:
+                    return "";
 
-        }
+            }
+        } else
+            return name;
+
     }
 
 }

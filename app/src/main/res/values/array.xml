@@ -9,7 +9,7 @@
         <item>@string/item24h</item>
     </string-array>
 
-    <string-array name="updtateTimeValues">
+    <string-array name="updateTimeValues" translatable="false">
         <item>10</item>
         <item>60</item>
         <item>180</item>
@@ -23,7 +23,7 @@
         <item>@string/itemCash</item>
     </string-array>
 
-    <string-array name="exchangeTypeValues">
+    <string-array name="exchangeTypeValues" translatable="false">
         <item>card</item>
         <item>cash</item>
     </string-array>

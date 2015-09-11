@@ -18,7 +18,7 @@
         android:background="@color/black"
         android:textColor="#ffffff"
         android:textStyle="bold"
-        android:text="@string/emtyViewText"
+        android:text="@string/emptyViewText"
         android:textSize="20sp" />
 
 </RelativeLayout>
