@@ -5,7 +5,7 @@
         <string name="action_settings">Настройки</string>
 
         <string name="pref_update_period_key">update period</string>
-        <string name="pref_update_period_title">Период обновления віджета</string>
+        <string name="pref_update_period_title">Период обновления виджета</string>
 
         <string name="pref_text_color_key">text color</string>
         <string name="pref_text_color_title">Цвет текста</string>
@@ -38,6 +38,4 @@
 
         <string name="currencyHeader"> </string>
         <string name="currencyBaseHeader">Base</string>
-        <string name="bidHeader">ПОКУПКА</string>
-        <string name="askHeader">ПРОДАЖА</string>
 </resources>

@@ -38,8 +38,10 @@
 
     <string name="currencyHeader"> </string>
     <string name="currencyBaseHeader">Base</string>
-    <string name="bidHeader">BID</string>
-    <string name="askHeader">ASK</string>
+    <string translatable="false"
+        name="bidHeader">BID</string>
+    <string translatable="false"
+        name="askHeader">ASK</string>
 
 
 </resources>

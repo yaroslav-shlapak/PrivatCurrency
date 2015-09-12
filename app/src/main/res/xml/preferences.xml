@@ -5,7 +5,6 @@
             alphaSlider="true"
             android:defaultValue="@color/white"
             android:key="@string/pref_text_color_key"
-            android:summary="Choose text color"
             android:title="@string/pref_text_color_title" />
         <ListPreference
             android:defaultValue="720"

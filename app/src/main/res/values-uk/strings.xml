@@ -38,7 +38,6 @@
 
     <string name="currencyHeader"> </string>
     <string name="currencyBaseHeader">Base</string>
-    <string name="bidHeader">КУПІВЛЯ</string>
-    <string name="askHeader">ПРОДАЖ</string>>
+
 
 </resources>
