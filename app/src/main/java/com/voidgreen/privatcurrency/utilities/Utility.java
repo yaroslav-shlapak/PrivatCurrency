@@ -105,7 +105,7 @@ public class Utility {
 
         int updatePeriod = getUpdateTime(context);
         Log.d(Constants.TAG, "Utility scheduleUpdate updatePeriod = " + updatePeriod);
-        am.setInexactRepeating(AlarmManager.RTC, System.currentTimeMillis() + 10000, updatePeriod * 1000, pi);
+        am.setInexactRepeating(AlarmManager.RTC, System.currentTimeMillis() + 10000, 60 * 60 * 1000, pi);
     }
 
     public static PendingIntent getAlarmIntent(Context context) {

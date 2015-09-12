@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">ПриватКурс</string>
+    <string name="app_name">ПриватКурси</string>
 
     <string name="action_settings">Налаштування</string>
 
@@ -20,7 +20,7 @@
     <string name="dialog_color_picker">Вибір кольору</string>
     <string name="press_color_to_apply">Виберіть колір</string>
 
-    <string name="emptyViewText">Загрузка...</string>
+    <string name="emptyViewText">Завантаження...</string>
     <string name="connectionProblem">Проблема загрузки</string>
 
     <string name="item10m">10 хвилин</string>

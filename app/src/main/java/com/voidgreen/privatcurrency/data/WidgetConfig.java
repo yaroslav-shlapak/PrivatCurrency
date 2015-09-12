@@ -91,7 +91,7 @@ public class WidgetConfig {
     }
 
     public boolean isCursorReady() {
-        Log.d(Constants.TAG, "WidgetConfig :isCursorReady = " + (cursor != null && cursor.moveToFirst()));
+        //Log.d(Constants.TAG, "WidgetConfig :isCursorReady = " + (cursor != null && cursor.moveToFirst()));
         return cursor != null && cursor.moveToFirst();
     }
 

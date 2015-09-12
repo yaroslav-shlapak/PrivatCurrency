@@ -62,7 +62,7 @@ class ViewsFactory implements RemoteViewsService.RemoteViewsFactory{
         //Setting activity call by onClick
         Intent intent = new Intent(context, SettingsActivity.class);
         intent.putExtra(Constants.WIDGET_ID, appWidgetId);
-        Log.d(Constants.TAG, "ViewsFactory:getViewAt appWidgetId = " + appWidgetId);
+        //Log.d(Constants.TAG, "ViewsFactory:getViewAt appWidgetId = " + appWidgetId);
         remoteView.setOnClickFillInIntent(R.id.itemTodo, intent);
 
         //Log.d(Constants.TAG, "ViewsFactory getViewAt");
@@ -110,10 +110,12 @@ class ViewsFactory implements RemoteViewsService.RemoteViewsFactory{
         //Log.d(Constants.TAG, "ViewsFactory onDestroy");
     }
     public void closeCursors() {
-        Log.d(Constants.TAG, "ViewsFactory closeCursors");
-        widgetConfig.closeCursor();
+        //Log.d(Constants.TAG, "ViewsFactory closeCursors");
+        if(widgetConfig != null){
+            widgetConfig.closeCursor();
+        }
         if (cursor != null) {
-            Log.d(Constants.TAG, "ViewsFactory closeCursors cursor.close()");
+            //Log.d(Constants.TAG, "ViewsFactory closeCursors cursor.close()");
             cursor.close();
         }
     }

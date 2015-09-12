@@ -6,6 +6,7 @@ import android.content.res.Resources;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.util.Log;
 
 import com.voidgreen.privatcurrency.R;
 import com.voidgreen.privatcurrency.json.JsonMessage;
@@ -43,6 +44,7 @@ public class DownloadCurrencyTask extends AsyncTask<String, Void, List> {
         // params comes from the execute() call: params[0] is the url.
         try {
             List list = downloadUrl(urls[0]);
+            Log.d(Constants.TAG, "doInBackground urls[0] = " + urls[0]);
             list.add(urls[0]);
             return list;
         } catch (IOException e) {
@@ -104,6 +106,7 @@ public class DownloadCurrencyTask extends AsyncTask<String, Void, List> {
                             //Log.d(Constants.TAG, "onPostExecute EXCHANGE_RATE_CARD : update");
                             updateDatabase(jsonMessage, Constants.CURRENCIES[i], CurrencyContract.CardEntry.COLUMN_CURRENCY, CurrencyContract.CardEntry.CONTENT_URI);
                         }
+
                         break;
                     case Constants.EXCHANGE_RATE_CASH:
 
@@ -121,13 +124,13 @@ public class DownloadCurrencyTask extends AsyncTask<String, Void, List> {
                             //Log.d(Constants.TAG, "onPostExecute EXCHANGE_RATE_CASH : update");
                             updateDatabase(jsonMessage, Constants.CURRENCIES[i], CurrencyContract.CashEntry.COLUMN_CURRENCY, CurrencyContract.CashEntry.CONTENT_URI);
                         }
+
                         break;
                 }
 
             }
+            Utility.updateAllWidgetsFromOutside(context);
         }
-
-        Utility.updateAllWidgetsFromOutside(context);
     }
 
     // Given a URL, establishes an HttpUrlConnection and retrieves
