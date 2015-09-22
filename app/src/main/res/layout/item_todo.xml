@@ -19,7 +19,6 @@
         android:layout_weight="1"
         android:textColor="@color/white"
         android:fontFamily="sans-serif-narrow"
-        android:textStyle="bold"
         android:gravity="center"
         android:textSize="@dimen/dataSize"/>
     <TextView android:layout_width="match_parent"
