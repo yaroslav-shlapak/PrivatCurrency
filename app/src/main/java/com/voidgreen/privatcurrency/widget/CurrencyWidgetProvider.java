@@ -24,6 +24,7 @@ public class CurrencyWidgetProvider extends AppWidgetProvider {
     @Override
     public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
         Utility.startDownload(context);
+        Utility.updateAllWidgetsFromOutside(context);
 
         Log.d(Constants.TAG, "CurrencyWidgetProvider onUpdate");
 
