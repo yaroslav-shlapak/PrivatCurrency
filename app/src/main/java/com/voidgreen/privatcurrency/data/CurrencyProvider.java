@@ -7,6 +7,9 @@ import android.content.UriMatcher;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
+import android.util.Log;
+
+import com.voidgreen.privatcurrency.utilities.Constants;
 
 /**
  * Created by Void on 31-Jul-15.
@@ -125,6 +128,7 @@ public class CurrencyProvider extends ContentProvider {
             case CARD: {
                 long _id = db.insert(
                         CurrencyContract.CardEntry.TABLE_NAME, null, values);
+                Log.d(Constants.TAG, "CurrencyProvider insert CARD" + _id);
                 if ( _id > 0 )
                     returnUri = CurrencyContract.CardEntry.buildCardUri(_id);
                 else
@@ -134,6 +138,7 @@ public class CurrencyProvider extends ContentProvider {
             case CASH: {
                 long _id = db.insert(
                         CurrencyContract.CashEntry.TABLE_NAME, null, values);
+                Log.d(Constants.TAG, "CurrencyProvider insert CASH" + _id);
                 if ( _id > 0 )
                     returnUri = CurrencyContract.CashEntry.buildCashUri(_id);
                 else
@@ -200,6 +205,7 @@ public class CurrencyProvider extends ContentProvider {
                 rowsUpdated = db.update(
                         CurrencyContract.CardEntry.TABLE_NAME, values, selection,
                         selectionArgs);
+                Log.d(Constants.TAG, "CurrencyProvider insert CASH" + selection);
                 break;
             case CASH:
                 rowsUpdated = db.update(
